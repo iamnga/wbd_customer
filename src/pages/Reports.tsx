@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import { useCustomers } from '../contexts/CustomerContext';
-import type { Customer } from '../types';
+import type { Customer, ServiceType, Region, Branch } from '../types';
 
 const { Title, Text } = Typography;
 
@@ -34,6 +34,9 @@ const Reports = () => {
   const { customers } = useCustomers();
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('Tháng');
   const [selectedCustomer, setSelectedCustomer] = useState<string>('all');
+  const [filterServiceType, setFilterServiceType] = useState<ServiceType | ''>('');
+  const [filterRegion, setFilterRegion] = useState<Region | ''>('');
+  const [filterBranch, setFilterBranch] = useState<Branch | ''>('');
 
   // Get unique customer names
   const customerNames = useMemo(() => {
@@ -45,7 +48,16 @@ const Reports = () => {
     let filteredCustomers = customers;
 
     if (selectedCustomer !== 'all') {
-      filteredCustomers = customers.filter((c) => c.name === selectedCustomer);
+      filteredCustomers = filteredCustomers.filter((c) => c.name === selectedCustomer);
+    }
+    if (filterServiceType) {
+      filteredCustomers = filteredCustomers.filter((c) => c.serviceType === filterServiceType);
+    }
+    if (filterRegion) {
+      filteredCustomers = filteredCustomers.filter((c) => c.region === filterRegion);
+    }
+    if (filterBranch) {
+      filteredCustomers = filteredCustomers.filter((c) => c.branch === filterBranch);
     }
 
     // Mock calculations - in real app, this would be based on actual transaction data
@@ -71,7 +83,7 @@ const Reports = () => {
       transactionValue,
       avgCasa,
     };
-  }, [customers, selectedCustomer, timePeriod]);
+  }, [customers, selectedCustomer, timePeriod, filterServiceType, filterRegion, filterBranch]);
 
   // Table data
   const tableData = useMemo((): CustomerReport[] => {
@@ -83,18 +95,30 @@ const Reports = () => {
     };
     const multiplier = periodMultiplier[timePeriod];
 
-    return customers
-      .filter((c) => selectedCustomer === 'all' || c.name === selectedCustomer)
-      .map((customer) => {
-        const transactions = 150 * multiplier;
-        const value = transactions * 2500000;
-        return {
-          ...customer,
-          transactions,
-          value,
-        };
-      });
-  }, [customers, selectedCustomer, timePeriod]);
+    let filtered = customers;
+    if (selectedCustomer !== 'all') {
+      filtered = filtered.filter((c) => c.name === selectedCustomer);
+    }
+    if (filterServiceType) {
+      filtered = filtered.filter((c) => c.serviceType === filterServiceType);
+    }
+    if (filterRegion) {
+      filtered = filtered.filter((c) => c.region === filterRegion);
+    }
+    if (filterBranch) {
+      filtered = filtered.filter((c) => c.branch === filterBranch);
+    }
+
+    return filtered.map((customer) => {
+      const transactions = 150 * multiplier;
+      const value = transactions * 2500000;
+      return {
+        ...customer,
+        transactions,
+        value,
+      };
+    });
+  }, [customers, selectedCustomer, timePeriod, filterServiceType, filterRegion, filterBranch]);
 
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('vi-VN', {
@@ -158,8 +182,8 @@ const Reports = () => {
 
       {/* Filters */}
       <Card>
-        <Row gutter={16}>
-          <Col xs={24} sm={12}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={8} lg={6}>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Mốc thời gian</div>
             <Select
               style={{ width: '100%' }}
@@ -173,7 +197,7 @@ const Reports = () => {
               ]}
             />
           </Col>
-          <Col xs={24} sm={12}>
+          <Col xs={24} sm={12} md={8} lg={6}>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Khách hàng</div>
             <Select
               style={{ width: '100%' }}
@@ -185,54 +209,108 @@ const Reports = () => {
               ]}
             />
           </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <div style={{ marginBottom: 8, fontWeight: 500 }}>Loại dịch vụ</div>
+            <Select
+              style={{ width: '100%' }}
+              value={filterServiceType}
+              onChange={setFilterServiceType}
+              options={[
+                { value: '', label: 'Tất cả' },
+                { value: 'Chi hộ', label: 'Chi hộ' },
+                { value: 'Thu hộ', label: 'Thu hộ' },
+                { value: 'Thu & Chi', label: 'Thu & Chi' },
+              ]}
+            />
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <div style={{ marginBottom: 8, fontWeight: 500 }}>Miền</div>
+            <Select
+              style={{ width: '100%' }}
+              value={filterRegion}
+              onChange={setFilterRegion}
+              options={[
+                { value: '', label: 'Tất cả' },
+                { value: 'Miền Nam', label: 'Miền Nam' },
+                { value: 'Miền Bắc', label: 'Miền Bắc' },
+              ]}
+            />
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <div style={{ marginBottom: 8, fontWeight: 500 }}>Chi nhánh</div>
+            <Select
+              style={{ width: '100%' }}
+              value={filterBranch}
+              onChange={setFilterBranch}
+              options={[
+                { value: '', label: 'Tất cả' },
+                { value: 'Hội Sở', label: 'Hội Sở' },
+                { value: 'Đô Thành', label: 'Đô Thành' },
+                { value: 'Hà Nội', label: 'Hà Nội' },
+                { value: 'Hoàn Kiếm', label: 'Hoàn Kiếm' },
+              ]}
+            />
+          </Col>
         </Row>
       </Card>
 
       {/* Key Metrics */}
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #2b6cae 0%, #92b5d7 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="Khách hàng đã triển khai"
+              title={<span style={{ color: 'rgba(255,255,255,0.9)' }}>Khách hàng đã triển khai</span>}
               value={reportData.deployedCustomers}
               prefix={<TeamOutlined />}
-              suffix={<Text type="secondary" style={{ fontSize: 12 }}>/ {timePeriod.toLowerCase()}</Text>}
-              valueStyle={{ color: '#2b6cae' }}
+              suffix={<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>/ {timePeriod.toLowerCase()}</span>}
+              valueStyle={{ color: 'white' }}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #f19b38 0%, #ffb74d 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="Tổng số giao dịch"
+              title={<span style={{ color: 'rgba(255,255,255,0.9)' }}>Tổng số giao dịch</span>}
               value={reportData.totalTransactions}
               prefix={<TransactionOutlined />}
-              suffix={<Text type="secondary" style={{ fontSize: 12 }}>/ {timePeriod.toLowerCase()}</Text>}
-              valueStyle={{ color: '#f19b38' }}
+              suffix={<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>/ {timePeriod.toLowerCase()}</span>}
+              valueStyle={{ color: 'white' }}
               formatter={(value) => formatNumber(Number(value))}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #92b5d7 0%, #d4e7f7 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="Giá trị giao dịch"
+              title={<span style={{ color: 'rgba(43,108,174,0.9)' }}>Giá trị giao dịch</span>}
               value={reportData.transactionValue}
               prefix={<DollarOutlined />}
-              suffix={<Text type="secondary" style={{ fontSize: 12 }}>/ {timePeriod.toLowerCase()}</Text>}
-              valueStyle={{ color: '#92b5d7', fontSize: 20 }}
+              suffix={<span style={{ fontSize: 12, color: 'rgba(43,108,174,0.8)' }}>/ {timePeriod.toLowerCase()}</span>}
+              valueStyle={{ color: '#2b6cae', fontSize: 20 }}
               formatter={(value) => formatCurrency(Number(value))}
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #4caf50 0%, #81c784 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="Casa bình quân"
+              title={<span style={{ color: 'rgba(255,255,255,0.9)' }}>Casa bình quân</span>}
               value={reportData.avgCasa}
               prefix={<BankOutlined />}
-              suffix={<Text type="secondary" style={{ fontSize: 12 }}>/ {timePeriod.toLowerCase()}</Text>}
-              valueStyle={{ color: '#4caf50', fontSize: 20 }}
+              suffix={<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>/ {timePeriod.toLowerCase()}</span>}
+              valueStyle={{ color: 'white', fontSize: 20 }}
               formatter={(value) => formatCurrency(Number(value))}
             />
           </Card>
