@@ -1,9 +1,8 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCustomers } from '../contexts/CustomerContext';
 import StatusBadge from '../components/StatusBadge';
 
-const Home: React.FC = () => {
+const Home = () => {
   const { customers } = useCustomers();
   const navigate = useNavigate();
 

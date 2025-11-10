@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCustomers } from '../contexts/CustomerContext';
 import StatusBadge from '../components/StatusBadge';
-import { Customer, ServiceType, Status, Region, Branch, Handler, PHASE_CHECKLISTS, STATUS_LABELS } from '../types';
+import type { Customer, Status } from '../types';
+import { PHASE_CHECKLISTS, STATUS_LABELS } from '../types';
 
-const CustomerDetail: React.FC = () => {
+const CustomerDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { customers, addCustomer, updateCustomer, getCustomerById } = useCustomers();
+  const { addCustomer, updateCustomer, getCustomerById } = useCustomers();
 
   const isNew = id === 'new';
   const isEdit = new URLSearchParams(window.location.search).get('mode') === 'edit';

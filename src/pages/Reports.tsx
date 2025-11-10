@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useCustomers } from '../contexts/CustomerContext';
 
 type TimePeriod = 'Tuần' | 'Tháng' | 'Quý' | 'Năm';
@@ -10,7 +10,7 @@ interface ReportData {
   avgCasa: number;
 }
 
-const Reports: React.FC = () => {
+const Reports = () => {
   const { customers } = useCustomers();
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('Tháng');
   const [selectedCustomer, setSelectedCustomer] = useState<string>('all');

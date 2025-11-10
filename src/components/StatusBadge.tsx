@@ -1,11 +1,10 @@
-import React from 'react';
-import { Status } from '../types';
+import type { Status } from '../types';
 
 interface StatusBadgeProps {
   status: Status;
 }
 
-const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+const StatusBadge = ({ status }: StatusBadgeProps) => {
   const getStatusClass = (status: Status): string => {
     return `status-badge status-${status.toLowerCase()}`;
   };

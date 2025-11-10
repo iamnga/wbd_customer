@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCustomers } from '../contexts/CustomerContext';
 import StatusBadge from '../components/StatusBadge';
-import { ServiceType, Status, Region, Branch, Handler } from '../types';
+import type { ServiceType, Status, Region, Branch, Handler } from '../types';
 
-const CustomerList: React.FC = () => {
+const CustomerList = () => {
   const { customers } = useCustomers();
   const navigate = useNavigate();
 
