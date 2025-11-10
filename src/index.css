@@ -130,18 +130,32 @@ code {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.1s;
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  white-space: nowrap;
 }
 
 .btn:hover {
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn:active {
   transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-icon {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .btn-primary {
@@ -351,8 +365,8 @@ code {
 
 .modal-actions {
   display: flex;
-  gap: 10px;
-  justify-content: flex-end;
+  gap: 15px;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
@@ -654,6 +668,33 @@ code {
 .flex-gap-10 {
   display: flex;
   gap: 10px;
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.button-group-start {
+  justify-content: flex-start;
+}
+
+.button-group-end {
+  justify-content: flex-end;
+}
+
+.button-group-between {
+  justify-content: space-between;
+}
+
+.button-group-center {
+  justify-content: center;
+}
+
+.button-separator {
+  flex: 1;
 }
 
 .alert {

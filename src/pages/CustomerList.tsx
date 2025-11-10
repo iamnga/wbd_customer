@@ -69,7 +69,8 @@ const CustomerList = () => {
       <div className="page-header">
         <h1 className="page-title">Quản lý khách hàng</h1>
         <button className="btn btn-primary" onClick={handleAddNew}>
-          + Thêm mới khách hàng
+          <span className="btn-icon">➕</span>
+          Thêm mới khách hàng
         </button>
       </div>
 

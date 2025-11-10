@@ -191,9 +191,10 @@ const CustomerDetail = () => {
     return (
       <div>
         <div className="alert alert-error">
-          Không tìm thấy khách hàng
+          <strong>Lỗi:</strong> Không tìm thấy khách hàng
         </div>
         <button className="btn btn-primary" onClick={() => navigate('/customers')}>
+          <span className="btn-icon">←</span>
           Quay lại danh sách
         </button>
       </div>
@@ -206,15 +207,17 @@ const CustomerDetail = () => {
         <h1 className="page-title">
           {mode === 'new' ? 'Tạo mới khách hàng' : mode === 'edit' ? 'Chỉnh sửa khách hàng' : 'Chi tiết khách hàng'}
         </h1>
-        <div className="flex-gap-10">
+        <div className="button-group">
+          <button className="btn btn-outline" onClick={() => navigate('/customers')}>
+            <span className="btn-icon">←</span>
+            Quay lại
+          </button>
           {mode === 'view' && (
             <button className="btn btn-primary" onClick={() => setMode('edit')}>
+              <span className="btn-icon">✏️</span>
               Chỉnh sửa
             </button>
           )}
-          <button className="btn btn-outline" onClick={() => navigate('/customers')}>
-            Quay lại
-          </button>
         </div>
       </div>
 
@@ -420,23 +423,35 @@ const CustomerDetail = () => {
               />
             </div>
 
-            <div className="flex-gap-10" style={{ marginTop: '30px' }}>
-              {mode === 'edit' && formData.status !== 'Canceled' && (
+            {/* Destructive Action - Separated */}
+            {mode === 'edit' && formData.status !== 'Canceled' && (
+              <div style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid var(--border-color)' }}>
                 <button
                   className="btn btn-danger"
                   onClick={() => setShowCancelModal(true)}
                 >
+                  <span className="btn-icon">⛔</span>
                   Dừng triển khai
                 </button>
-              )}
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                {mode === 'new' ? 'Tạo mới' : 'Xác nhận'}
-              </button>
+                <div style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>
+                  Lưu ý: Hành động này sẽ đánh dấu khách hàng là đã hủy triển khai
+                </div>
+              </div>
+            )}
+
+            {/* Primary Actions - Standard Order */}
+            <div className="button-group button-group-between" style={{ marginTop: '30px' }}>
               {mode === 'edit' && (
                 <button className="btn btn-outline" onClick={() => setMode('view')}>
+                  <span className="btn-icon">✕</span>
                   Hủy
                 </button>
               )}
+              {mode === 'new' && <div className="button-separator" />}
+              <button className="btn btn-primary" onClick={handleSubmit}>
+                <span className="btn-icon">{mode === 'new' ? '➕' : '✓'}</span>
+                {mode === 'new' ? 'Tạo mới' : 'Lưu thay đổi'}
+              </button>
             </div>
           </div>
         )}
@@ -457,11 +472,13 @@ const CustomerDetail = () => {
               />
             </div>
             <div className="modal-actions">
-              <button className="btn btn-danger" onClick={handleCancelCustomer}>
-                Xác nhận
-              </button>
               <button className="btn btn-outline" onClick={() => setShowCancelModal(false)}>
+                <span className="btn-icon">✕</span>
                 Hủy bỏ
+              </button>
+              <button className="btn btn-danger" onClick={handleCancelCustomer}>
+                <span className="btn-icon">✓</span>
+                Xác nhận dừng
               </button>
             </div>
           </div>
