@@ -62,32 +62,41 @@ const Home = () => {
       {/* Statistics Cards */}
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={8}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #2b6cae 0%, #92b5d7 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="Tổng số khách hàng"
+              title={<span style={{ color: 'rgba(255,255,255,0.9)' }}>Tổng số khách hàng</span>}
               value={totalCustomers}
               prefix={<TeamOutlined />}
-              valueStyle={{ color: '#2b6cae' }}
+              valueStyle={{ color: 'white' }}
             />
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #4caf50 0%, #81c784 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="KH đã triển khai"
+              title={<span style={{ color: 'rgba(255,255,255,0.9)' }}>KH đã triển khai</span>}
               value={deployedCustomers}
               prefix={<CheckCircleOutlined />}
-              valueStyle={{ color: '#4caf50' }}
+              valueStyle={{ color: 'white' }}
             />
           </Card>
         </Col>
         <Col xs={24} sm={8}>
-          <Card>
+          <Card style={{
+            background: 'linear-gradient(135deg, #f19b38 0%, #ffb74d 100%)',
+            border: 'none'
+          }}>
             <Statistic
-              title="KH đang triển khai"
+              title={<span style={{ color: 'rgba(255,255,255,0.9)' }}>KH đang triển khai</span>}
               value={deployingCustomers}
               prefix={<SyncOutlined spin />}
-              valueStyle={{ color: '#f19b38' }}
+              valueStyle={{ color: 'white' }}
             />
           </Card>
         </Col>
@@ -117,53 +126,53 @@ const Home = () => {
                   onClick={() => handleCardClick(customer.id)}
                   style={{ height: '100%' }}
                 >
-                  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                    <Title level={5} style={{ margin: 0, color: '#2b6cae' }}>
-                      {customer.name}
-                    </Title>
+                  <Title level={5} style={{ margin: '0 0 16px 0', color: '#2b6cae' }}>
+                    {customer.name}
+                  </Title>
 
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '12px 16px'
+                  }}>
                     <div>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
+                      <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
                         Trạng thái
                       </Text>
-                      <div style={{ marginTop: 4 }}>
-                        <StatusBadge status={customer.status} />
-                      </div>
+                      <StatusBadge status={customer.status} />
                     </div>
 
                     <div>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
+                      <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
+                        Dịch vụ
+                      </Text>
+                      <Tag color={getServiceTagColor(customer.serviceType)}>
+                        {customer.serviceType}
+                      </Tag>
+                    </div>
+
+                    <div>
+                      <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
                         Người xử lý
                       </Text>
-                      <div style={{ marginTop: 4 }}>
+                      <div>
                         <UserOutlined style={{ marginRight: 6 }} />
                         <Text strong>{customer.handler}</Text>
                       </div>
                     </div>
 
                     <div>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
-                        Dịch vụ
+                      <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
+                        Ngày golive
                       </Text>
-                      <div style={{ marginTop: 4 }}>
-                        <Tag color={getServiceTagColor(customer.serviceType)}>
-                          {customer.serviceType}
-                        </Tag>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
-                        Ngày golive dự kiến
-                      </Text>
-                      <div style={{ marginTop: 4 }}>
+                      <div>
                         <CalendarOutlined style={{ marginRight: 6 }} />
                         <Text strong style={{ color: '#f19b38' }}>
                           {dayjs(customer.expectedEndDate).format('DD/MM/YYYY')}
                         </Text>
                       </div>
                     </div>
-                  </Space>
+                  </div>
                 </Card>
               </Col>
             ))}

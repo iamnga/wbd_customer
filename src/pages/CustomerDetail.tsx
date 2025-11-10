@@ -14,7 +14,6 @@ import {
   Steps,
   Descriptions,
   Tooltip,
-  Divider,
 } from 'antd';
 import {
   ArrowLeftOutlined,
@@ -168,26 +167,27 @@ const CustomerDetail = () => {
       return {
         title: STATUS_LABELS[status],
         status: (isCompleted ? 'finish' : isCurrent ? 'process' : 'wait') as 'wait' | 'process' | 'finish' | 'error',
-        icon:
-          phaseChecklist && isCurrent ? (
-            <Tooltip
-              title={
-                <div>
-                  <div style={{ fontWeight: 600, marginBottom: 8 }}>
-                    {STATUS_LABELS[status]} Phase
-                  </div>
-                  <ul style={{ margin: 0, paddingLeft: 20 }}>
-                    {phaseChecklist.items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
+        icon: phaseChecklist ? (
+          <Tooltip
+            title={
+              <div>
+                <div style={{ fontWeight: 600, marginBottom: 8 }}>
+                  {STATUS_LABELS[status]} Phase
                 </div>
-              }
-              overlayStyle={{ maxWidth: 400 }}
-            >
-              <div>{isCompleted ? <CheckOutlined /> : index + 1}</div>
-            </Tooltip>
-          ) : undefined,
+                <ul style={{ margin: 0, paddingLeft: 20 }}>
+                  {phaseChecklist.items.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            }
+            overlayStyle={{ maxWidth: 400 }}
+          >
+            <div style={{ cursor: 'help' }}>
+              {isCompleted ? <CheckOutlined /> : index + 1}
+            </div>
+          </Tooltip>
+        ) : undefined,
       };
     });
 
@@ -223,12 +223,12 @@ const CustomerDetail = () => {
             ? 'Chỉnh sửa khách hàng'
             : 'Chi tiết khách hàng'}
         </Title>
-        <Space>
-          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/customers')}>
+        <Space size="middle">
+          <Button size="large" icon={<ArrowLeftOutlined />} onClick={() => navigate('/customers')}>
             Quay lại
           </Button>
           {mode === 'view' && (
-            <Button type="primary" icon={<EditOutlined />} onClick={() => setMode('edit')}>
+            <Button type="primary" size="large" icon={<EditOutlined />} onClick={() => setMode('edit')}>
               Chỉnh sửa
             </Button>
           )}
@@ -385,48 +385,52 @@ const CustomerDetail = () => {
               <TextArea rows={4} placeholder="Nhập ghi chú (không bắt buộc)" />
             </Form.Item>
 
-            {/* Destructive Action - Separated */}
-            {mode === 'edit' && customer?.status !== 'Canceled' && (
-              <>
-                <Divider />
-                <div>
-                  <Button
-                    danger
-                    icon={<StopOutlined />}
-                    onClick={() => setShowCancelModal(true)}
-                  >
-                    Dừng triển khai
-                  </Button>
-                  <div style={{ fontSize: 12, color: '#999', marginTop: 8 }}>
-                    Lưu ý: Hành động này sẽ đánh dấu khách hàng là đã hủy triển khai
-                  </div>
-                </div>
-                <Divider />
-              </>
-            )}
-
             {/* Action Buttons */}
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                marginTop: 24,
+                justifyContent: 'flex-end',
+                gap: '12px',
+                marginTop: 32,
+                paddingTop: 24,
+                borderTop: '1px solid #f0f0f0'
               }}
             >
               {mode === 'edit' && (
-                <Button icon={<CloseOutlined />} onClick={() => setMode('view')}>
+                <Button size="large" icon={<CloseOutlined />} onClick={() => setMode('view')}>
                   Hủy
                 </Button>
               )}
-              {mode === 'new' && <div />}
               <Button
                 type="primary"
+                size="large"
                 icon={mode === 'new' ? <PlusOutlined /> : <SaveOutlined />}
                 onClick={handleSubmit}
               >
                 {mode === 'new' ? 'Tạo mới' : 'Lưu thay đổi'}
               </Button>
             </div>
+
+            {/* Destructive Action - Separated at bottom */}
+            {mode === 'edit' && customer?.status !== 'Canceled' && (
+              <div style={{
+                marginTop: 32,
+                paddingTop: 24,
+                borderTop: '2px solid #ffebee'
+              }}>
+                <Button
+                  danger
+                  size="large"
+                  icon={<StopOutlined />}
+                  onClick={() => setShowCancelModal(true)}
+                >
+                  Dừng triển khai
+                </Button>
+                <div style={{ fontSize: 12, color: '#999', marginTop: 8 }}>
+                  ⚠️ Lưu ý: Hành động này sẽ đánh dấu khách hàng là đã hủy triển khai
+                </div>
+              </div>
+            )}
           </Form>
         )}
       </Card>
@@ -437,13 +441,19 @@ const CustomerDetail = () => {
         open={showCancelModal}
         onCancel={() => setShowCancelModal(false)}
         footer={[
-          <Button key="back" icon={<CloseOutlined />} onClick={() => setShowCancelModal(false)}>
+          <Button
+            key="back"
+            size="large"
+            icon={<CloseOutlined />}
+            onClick={() => setShowCancelModal(false)}
+          >
             Hủy bỏ
           </Button>,
           <Button
             key="submit"
             type="primary"
             danger
+            size="large"
             icon={<CheckOutlined />}
             onClick={handleCancelCustomer}
           >
