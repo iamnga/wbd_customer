@@ -1,10 +1,15 @@
 import type { Status } from '../types';
 
 interface StatusBadgeProps {
-  status: Status;
+  status?: Status;
 }
 
 const StatusBadge = ({ status }: StatusBadgeProps) => {
+  // Handle undefined/null status
+  if (!status) {
+    return <span className="status-badge">-</span>;
+  }
+
   const getStatusClass = (status: Status): string => {
     return `status-badge status-${status.toLowerCase()}`;
   };

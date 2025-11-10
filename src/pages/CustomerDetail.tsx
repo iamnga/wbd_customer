@@ -245,34 +245,40 @@ const CustomerDetail = () => {
       {/* Customer Information */}
       <Card title="Thông tin khách hàng">
         {mode === 'view' ? (
-          <Descriptions column={2} bordered>
-            <Descriptions.Item label="Tên khách hàng">{customer?.name}</Descriptions.Item>
-            <Descriptions.Item label="Loại dịch vụ">{customer?.serviceType}</Descriptions.Item>
-            <Descriptions.Item label="Trạng thái">
-              <StatusBadge status={customer?.status as Status} />
-            </Descriptions.Item>
-            <Descriptions.Item label="Miền">{customer?.region}</Descriptions.Item>
-            <Descriptions.Item label="Chi nhánh">{customer?.branch}</Descriptions.Item>
-            <Descriptions.Item label="Người xử lý">{customer?.handler}</Descriptions.Item>
-            <Descriptions.Item label="Ngày bắt đầu">
-              {customer?.startDate
-                ? dayjs(customer.startDate).format('DD/MM/YYYY')
-                : ''}
-            </Descriptions.Item>
-            <Descriptions.Item label="Ngày kết thúc dự kiến">
-              {customer?.expectedEndDate
-                ? dayjs(customer.expectedEndDate).format('DD/MM/YYYY')
-                : ''}
-            </Descriptions.Item>
-            <Descriptions.Item label="Ghi chú" span={2}>
-              {customer?.notes || 'Không có ghi chú'}
-            </Descriptions.Item>
-            {customer?.cancelReason && (
-              <Descriptions.Item label="Lý do dừng triển khai" span={2}>
-                <Text type="danger">{customer.cancelReason}</Text>
+          customer ? (
+            <Descriptions column={2} bordered>
+              <Descriptions.Item label="Tên khách hàng">{customer.name}</Descriptions.Item>
+              <Descriptions.Item label="Loại dịch vụ">{customer.serviceType}</Descriptions.Item>
+              <Descriptions.Item label="Trạng thái">
+                <StatusBadge status={customer.status} />
               </Descriptions.Item>
-            )}
-          </Descriptions>
+              <Descriptions.Item label="Miền">{customer.region}</Descriptions.Item>
+              <Descriptions.Item label="Chi nhánh">{customer.branch}</Descriptions.Item>
+              <Descriptions.Item label="Người xử lý">{customer.handler}</Descriptions.Item>
+              <Descriptions.Item label="Ngày bắt đầu">
+                {customer.startDate
+                  ? dayjs(customer.startDate).format('DD/MM/YYYY')
+                  : ''}
+              </Descriptions.Item>
+              <Descriptions.Item label="Ngày kết thúc dự kiến">
+                {customer.expectedEndDate
+                  ? dayjs(customer.expectedEndDate).format('DD/MM/YYYY')
+                  : ''}
+              </Descriptions.Item>
+              <Descriptions.Item label="Ghi chú" span={2}>
+                {customer.notes || 'Không có ghi chú'}
+              </Descriptions.Item>
+              {customer.cancelReason && (
+                <Descriptions.Item label="Lý do dừng triển khai" span={2}>
+                  <Text type="danger">{customer.cancelReason}</Text>
+                </Descriptions.Item>
+              )}
+            </Descriptions>
+          ) : (
+            <div style={{ padding: 40, textAlign: 'center' }}>
+              <Text type="secondary">Đang tải thông tin khách hàng...</Text>
+            </div>
+          )
         ) : (
           <Form form={form} layout="vertical" initialValues={{ status: 'Initiation' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
