@@ -182,8 +182,12 @@ const Reports = () => {
 
       {/* Filters */}
       <Card>
-        <Row gutter={[16, 16]}>
-          <Col xs={24} sm={12} md={8} lg={6}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(5, 1fr)',
+          gap: '16px'
+        }}>
+          <div>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Mốc thời gian</div>
             <Select
               style={{ width: '100%' }}
@@ -196,8 +200,8 @@ const Reports = () => {
                 { value: 'Năm', label: 'Năm' },
               ]}
             />
-          </Col>
-          <Col xs={24} sm={12} md={8} lg={6}>
+          </div>
+          <div>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Khách hàng</div>
             <Select
               style={{ width: '100%' }}
@@ -208,8 +212,8 @@ const Reports = () => {
                 ...customerNames.slice(1).map((name) => ({ value: name, label: name })),
               ]}
             />
-          </Col>
-          <Col xs={24} sm={12} md={8} lg={6}>
+          </div>
+          <div>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Loại dịch vụ</div>
             <Select
               style={{ width: '100%' }}
@@ -222,8 +226,8 @@ const Reports = () => {
                 { value: 'Thu & Chi', label: 'Thu & Chi' },
               ]}
             />
-          </Col>
-          <Col xs={24} sm={12} md={8} lg={6}>
+          </div>
+          <div>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Miền</div>
             <Select
               style={{ width: '100%' }}
@@ -235,8 +239,8 @@ const Reports = () => {
                 { value: 'Miền Bắc', label: 'Miền Bắc' },
               ]}
             />
-          </Col>
-          <Col xs={24} sm={12} md={8} lg={6}>
+          </div>
+          <div>
             <div style={{ marginBottom: 8, fontWeight: 500 }}>Chi nhánh</div>
             <Select
               style={{ width: '100%' }}
@@ -250,8 +254,8 @@ const Reports = () => {
                 { value: 'Hoàn Kiếm', label: 'Hoàn Kiếm' },
               ]}
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Card>
 
       {/* Key Metrics */}
