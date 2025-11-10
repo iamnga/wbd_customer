@@ -1,6 +1,6 @@
-# CRM Dashboard - Hệ thống Quản lý Khách hàng Doanh nghiệp
+# WB-DS Management - Hệ thống Quản lý Khách hàng Doanh nghiệp
 
-Ứng dụng web quản lý khách hàng doanh nghiệp được xây dựng với React + TypeScript + Vite.
+Ứng dụng web quản lý khách hàng doanh nghiệp WB-DS Management được xây dựng với React + TypeScript + Vite.
 
 ## Tính năng
 

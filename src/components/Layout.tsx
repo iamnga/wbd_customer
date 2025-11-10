@@ -19,7 +19,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="app-container">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h1>CRM Dashboard</h1>
+          <h1>WB-DS Management</h1>
         </div>
         <nav>
           <ul className="sidebar-nav">

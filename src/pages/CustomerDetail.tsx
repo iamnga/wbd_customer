@@ -158,33 +158,29 @@ const CustomerDetail = () => {
             const isActive = index === currentStatusIndex;
             const stepClass = `pipeline-step ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
 
+            // Get checklist for this phase
+            const phaseChecklist = PHASE_CHECKLISTS.find(phase => phase.phase === status);
+
             return (
               <div key={status} className={stepClass}>
-                <div className="pipeline-step-circle">
-                  {isCompleted ? '✓' : index + 1}
+                <div className="tooltip-wrapper">
+                  <div className="pipeline-step-circle">
+                    {isCompleted ? '✓' : index + 1}
+                  </div>
+                  {phaseChecklist && (
+                    <div className="tooltip-content">
+                      <h4>{STATUS_LABELS[status]} Phase</h4>
+                      <ul>
+                        {phaseChecklist.items.map((item, idx) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <div className="pipeline-step-label">{STATUS_LABELS[status]}</div>
               </div>
             );
-          })}
-        </div>
-
-        <div className="pipeline-checklist">
-          {PHASE_CHECKLISTS.filter(phase => phase.phase !== 'Canceled').map((phase) => {
-            const phaseIndex = getStatusIndex(phase.phase);
-            if (phaseIndex <= currentStatusIndex) {
-              return (
-                <div key={phase.phase} style={{ marginBottom: '20px' }}>
-                  <h4>{STATUS_LABELS[phase.phase]} Phase:</h4>
-                  <ul>
-                    {phase.items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            }
-            return null;
           })}
         </div>
       </div>

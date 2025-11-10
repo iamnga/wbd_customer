@@ -16,6 +16,10 @@ const CustomerList = () => {
   const [filterHandler, setFilterHandler] = useState<Handler | ''>('');
   const [filterBranch, setFilterBranch] = useState<Branch | ''>('');
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   // Filtered customers
   const filteredCustomers = useMemo(() => {
     return customers.filter(customer => {
@@ -40,6 +44,17 @@ const CustomerList = () => {
       return true;
     });
   }, [customers, filterCustomer, filterRegion, filterServiceType, filterStatus, filterHandler, filterBranch]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedCustomers = filteredCustomers.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filters change
+  const handleFilterChange = () => {
+    setCurrentPage(1);
+  };
 
   const handleRowClick = (customerId: string) => {
     navigate(`/customers/${customerId}`);
@@ -68,7 +83,7 @@ const CustomerList = () => {
               className="form-input"
               placeholder="Tìm kiếm..."
               value={filterCustomer}
-              onChange={(e) => setFilterCustomer(e.target.value)}
+              onChange={(e) => { setFilterCustomer(e.target.value); handleFilterChange(); }}
             />
           </div>
 
@@ -160,7 +175,7 @@ const CustomerList = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCustomers.map((customer) => (
+            {paginatedCustomers.map((customer) => (
               <tr key={customer.id} onClick={() => handleRowClick(customer.id)}>
                 <td style={{ fontWeight: '500' }}>{customer.name}</td>
                 <td>{customer.serviceType}</td>
@@ -182,9 +197,70 @@ const CustomerList = () => {
         )}
       </div>
 
-      <div style={{ marginTop: '20px', color: '#666', fontSize: '14px' }}>
-        Hiển thị {filteredCustomers.length} / {customers.length} khách hàng
-      </div>
+      {/* Pagination */}
+      {filteredCustomers.length > 0 && (
+        <>
+          <div style={{ marginTop: '20px', color: '#666', fontSize: '14px', textAlign: 'center' }}>
+            Hiển thị {startIndex + 1} - {Math.min(endIndex, filteredCustomers.length)} trong tổng số {filteredCustomers.length} khách hàng
+          </div>
+
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="pagination-btn"
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+              >
+                ««
+              </button>
+              <button
+                className="pagination-btn"
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                «
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                // Show first, last, current, and adjacent pages
+                if (
+                  page === 1 ||
+                  page === totalPages ||
+                  (page >= currentPage - 1 && page <= currentPage + 1)
+                ) {
+                  return (
+                    <button
+                      key={page}
+                      className={`pagination-btn ${page === currentPage ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </button>
+                  );
+                } else if (page === currentPage - 2 || page === currentPage + 2) {
+                  return <span key={page} className="pagination-info">...</span>;
+                }
+                return null;
+              })}
+
+              <button
+                className="pagination-btn"
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                »
+              </button>
+              <button
+                className="pagination-btn"
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                »»
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
