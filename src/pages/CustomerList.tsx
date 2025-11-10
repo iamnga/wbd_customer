@@ -1,8 +1,13 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Table, Input, Select, Button, Space, Card, Typography } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import type { ColumnsType } from 'antd/es/table';
 import { useCustomers } from '../contexts/CustomerContext';
 import StatusBadge from '../components/StatusBadge';
-import type { ServiceType, Status, Region, Branch, Handler } from '../types';
+import type { ServiceType, Status, Region, Branch, Handler, Customer } from '../types';
+
+const { Title } = Typography;
 
 const CustomerList = () => {
   const { customers } = useCustomers();
@@ -15,10 +20,6 @@ const CustomerList = () => {
   const [filterStatus, setFilterStatus] = useState<Status | ''>('');
   const [filterHandler, setFilterHandler] = useState<Handler | ''>('');
   const [filterBranch, setFilterBranch] = useState<Branch | ''>('');
-
-  // Pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
 
   // Filtered customers
   const filteredCustomers = useMemo(() => {
@@ -45,224 +46,183 @@ const CustomerList = () => {
     });
   }, [customers, filterCustomer, filterRegion, filterServiceType, filterStatus, filterHandler, filterBranch]);
 
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedCustomers = filteredCustomers.slice(startIndex, endIndex);
-
-  // Reset to page 1 when filters change
-  const handleFilterChange = () => {
-    setCurrentPage(1);
-  };
-
-  const handleRowClick = (customerId: string) => {
-    navigate(`/customers/${customerId}`);
-  };
+  // Table columns
+  const columns: ColumnsType<Customer> = [
+    {
+      title: 'Tên khách hàng',
+      dataIndex: 'name',
+      key: 'name',
+      width: '25%',
+      render: (text: string) => <strong>{text}</strong>,
+    },
+    {
+      title: 'Loại dịch vụ',
+      dataIndex: 'serviceType',
+      key: 'serviceType',
+      width: '15%',
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      width: '15%',
+      render: (status: Status) => <StatusBadge status={status} />,
+    },
+    {
+      title: 'Miền',
+      dataIndex: 'region',
+      key: 'region',
+      width: '15%',
+    },
+    {
+      title: 'Chi nhánh',
+      dataIndex: 'branch',
+      key: 'branch',
+      width: '15%',
+    },
+    {
+      title: 'Người xử lý',
+      dataIndex: 'handler',
+      key: 'handler',
+      width: '15%',
+    },
+  ];
 
   const handleAddNew = () => {
     navigate('/customers/new');
   };
 
   return (
-    <div>
-      <div className="page-header">
-        <h1 className="page-title">Quản lý khách hàng</h1>
-        <button className="btn btn-primary" onClick={handleAddNew}>
-          <span className="btn-icon">➕</span>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Title level={2} style={{ margin: 0, color: '#2b6cae' }}>
+          Quản lý khách hàng
+        </Title>
+        <Button type="primary" icon={<PlusOutlined />} size="large" onClick={handleAddNew}>
           Thêm mới khách hàng
-        </button>
+        </Button>
       </div>
 
-      {/* Filter Section */}
-      <div className="filter-section">
-        <div className="filter-grid">
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Khách hàng</label>
-            <input
-              type="text"
-              className="form-input"
-              placeholder="Tìm kiếm..."
-              value={filterCustomer}
-              onChange={(e) => { setFilterCustomer(e.target.value); handleFilterChange(); }}
-            />
-          </div>
+      {/* Filters */}
+      <Card>
+        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '16px',
+          }}>
+            <div>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>Khách hàng</div>
+              <Input
+                prefix={<SearchOutlined />}
+                placeholder="Tìm kiếm..."
+                value={filterCustomer}
+                onChange={(e) => setFilterCustomer(e.target.value)}
+                allowClear
+              />
+            </div>
 
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Miền</label>
-            <select
-              className="form-select"
-              value={filterRegion}
-              onChange={(e) => setFilterRegion(e.target.value as Region | '')}
-            >
-              <option value="">Tất cả</option>
-              <option value="Miền Nam">Miền Nam</option>
-              <option value="Miền Bắc">Miền Bắc</option>
-            </select>
-          </div>
+            <div>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>Miền</div>
+              <Select
+                style={{ width: '100%' }}
+                value={filterRegion}
+                onChange={setFilterRegion}
+                options={[
+                  { value: '', label: 'Tất cả' },
+                  { value: 'Miền Nam', label: 'Miền Nam' },
+                  { value: 'Miền Bắc', label: 'Miền Bắc' },
+                ]}
+              />
+            </div>
 
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Loại dịch vụ</label>
-            <select
-              className="form-select"
-              value={filterServiceType}
-              onChange={(e) => setFilterServiceType(e.target.value as ServiceType | '')}
-            >
-              <option value="">Tất cả</option>
-              <option value="Chi hộ">Chi hộ</option>
-              <option value="Thu hộ">Thu hộ</option>
-              <option value="Thu & Chi">Thu & Chi</option>
-            </select>
-          </div>
+            <div>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>Loại dịch vụ</div>
+              <Select
+                style={{ width: '100%' }}
+                value={filterServiceType}
+                onChange={setFilterServiceType}
+                options={[
+                  { value: '', label: 'Tất cả' },
+                  { value: 'Chi hộ', label: 'Chi hộ' },
+                  { value: 'Thu hộ', label: 'Thu hộ' },
+                  { value: 'Thu & Chi', label: 'Thu & Chi' },
+                ]}
+              />
+            </div>
 
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Trạng thái</label>
-            <select
-              className="form-select"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as Status | '')}
-            >
-              <option value="">Tất cả</option>
-              <option value="Initiation">Initiation</option>
-              <option value="Planning">Planning</option>
-              <option value="Execution">Execution</option>
-              <option value="MonitorNControl">Monitor & Control</option>
-              <option value="Closure">Closure</option>
-              <option value="Canceled">Canceled</option>
-            </select>
-          </div>
+            <div>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>Trạng thái</div>
+              <Select
+                style={{ width: '100%' }}
+                value={filterStatus}
+                onChange={setFilterStatus}
+                options={[
+                  { value: '', label: 'Tất cả' },
+                  { value: 'Initiation', label: 'Initiation' },
+                  { value: 'Planning', label: 'Planning' },
+                  { value: 'Execution', label: 'Execution' },
+                  { value: 'MonitorNControl', label: 'Monitor & Control' },
+                  { value: 'Closure', label: 'Closure' },
+                  { value: 'Canceled', label: 'Canceled' },
+                ]}
+              />
+            </div>
 
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Người xử lý</label>
-            <select
-              className="form-select"
-              value={filterHandler}
-              onChange={(e) => setFilterHandler(e.target.value as Handler | '')}
-            >
-              <option value="">Tất cả</option>
-              <option value="Hoàng Phương Nhi">Hoàng Phương Nhi</option>
-              <option value="Nguyễn Hữu Cường">Nguyễn Hữu Cường</option>
-            </select>
-          </div>
+            <div>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>Người xử lý</div>
+              <Select
+                style={{ width: '100%' }}
+                value={filterHandler}
+                onChange={setFilterHandler}
+                options={[
+                  { value: '', label: 'Tất cả' },
+                  { value: 'Hoàng Phương Nhi', label: 'Hoàng Phương Nhi' },
+                  { value: 'Nguyễn Hữu Cường', label: 'Nguyễn Hữu Cường' },
+                ]}
+              />
+            </div>
 
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label">Chi nhánh</label>
-            <select
-              className="form-select"
-              value={filterBranch}
-              onChange={(e) => setFilterBranch(e.target.value as Branch | '')}
-            >
-              <option value="">Tất cả</option>
-              <option value="Hội Sở">Hội Sở</option>
-              <option value="Đô Thành">Đô Thành</option>
-              <option value="Hà Nội">Hà Nội</option>
-              <option value="Hoàn Kiếm">Hoàn Kiếm</option>
-            </select>
+            <div>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>Chi nhánh</div>
+              <Select
+                style={{ width: '100%' }}
+                value={filterBranch}
+                onChange={setFilterBranch}
+                options={[
+                  { value: '', label: 'Tất cả' },
+                  { value: 'Hội Sở', label: 'Hội Sở' },
+                  { value: 'Đô Thành', label: 'Đô Thành' },
+                  { value: 'Hà Nội', label: 'Hà Nội' },
+                  { value: 'Hoàn Kiếm', label: 'Hoàn Kiếm' },
+                ]}
+              />
+            </div>
           </div>
-        </div>
-      </div>
+        </Space>
+      </Card>
 
       {/* Table */}
-      <div className="table-container">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Tên khách hàng</th>
-              <th>Loại dịch vụ</th>
-              <th>Trạng thái</th>
-              <th>Miền</th>
-              <th>Chi nhánh</th>
-              <th>Người xử lý</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedCustomers.map((customer) => (
-              <tr key={customer.id} onClick={() => handleRowClick(customer.id)}>
-                <td style={{ fontWeight: '500' }}>{customer.name}</td>
-                <td>{customer.serviceType}</td>
-                <td>
-                  <StatusBadge status={customer.status} />
-                </td>
-                <td>{customer.region}</td>
-                <td>{customer.branch}</td>
-                <td>{customer.handler}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {filteredCustomers.length === 0 && (
-          <div style={{ padding: '40px', textAlign: 'center', color: '#666' }}>
-            Không tìm thấy khách hàng nào
-          </div>
-        )}
-      </div>
-
-      {/* Pagination */}
-      {filteredCustomers.length > 0 && (
-        <>
-          <div style={{ marginTop: '20px', color: '#666', fontSize: '14px', textAlign: 'center' }}>
-            Hiển thị {startIndex + 1} - {Math.min(endIndex, filteredCustomers.length)} trong tổng số {filteredCustomers.length} khách hàng
-          </div>
-
-          {totalPages > 1 && (
-            <div className="pagination">
-              <button
-                className="pagination-btn"
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-              >
-                ««
-              </button>
-              <button
-                className="pagination-btn"
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                «
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                // Show first, last, current, and adjacent pages
-                if (
-                  page === 1 ||
-                  page === totalPages ||
-                  (page >= currentPage - 1 && page <= currentPage + 1)
-                ) {
-                  return (
-                    <button
-                      key={page}
-                      className={`pagination-btn ${page === currentPage ? 'active' : ''}`}
-                      onClick={() => setCurrentPage(page)}
-                    >
-                      {page}
-                    </button>
-                  );
-                } else if (page === currentPage - 2 || page === currentPage + 2) {
-                  return <span key={page} className="pagination-info">...</span>;
-                }
-                return null;
-              })}
-
-              <button
-                className="pagination-btn"
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                »
-              </button>
-              <button
-                className="pagination-btn"
-                onClick={() => setCurrentPage(totalPages)}
-                disabled={currentPage === totalPages}
-              >
-                »»
-              </button>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+      <Table
+        columns={columns}
+        dataSource={filteredCustomers}
+        rowKey="id"
+        pagination={{
+          pageSize: 10,
+          showTotal: (total, range) =>
+            `Hiển thị ${range[0]}-${range[1]} trong tổng số ${total} khách hàng`,
+          showSizeChanger: false,
+        }}
+        onRow={(record) => ({
+          onClick: () => navigate(`/customers/${record.id}`),
+          style: { cursor: 'pointer' },
+        })}
+        locale={{
+          emptyText: 'Không tìm thấy khách hàng nào',
+        }}
+      />
+    </Space>
   );
 };
 
