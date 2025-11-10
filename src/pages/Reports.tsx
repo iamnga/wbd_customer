@@ -67,7 +67,7 @@ const Reports = () => {
   return (
     <div>
       <div className="page-header">
-        <h1 className="page-title">Báo cáo</h1>
+        <h1 className="page-title">Dashboard Báo Cáo Tổng Quan</h1>
       </div>
 
       {/* Filters */}
@@ -105,123 +105,149 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* Dashboard Metrics */}
-      <div style={{ marginBottom: '30px' }}>
-        <div className="card">
-          <h2 className="card-header">Dashboard Power BI</h2>
-          <p style={{ color: '#666', marginBottom: '20px' }}>
-            Báo cáo tổng quan cho {timePeriod.toLowerCase()} {selectedCustomer !== 'all' ? `- ${selectedCustomer}` : ''}
-          </p>
+      {/* Key Metrics */}
+      <div className="metric-grid">
+        <div className="metric-card primary">
+          <div className="metric-label">Khách hàng đã triển khai</div>
+          <div className="metric-value">{reportData.deployedCustomers}</div>
+          <div className="metric-subtext">Trong {timePeriod.toLowerCase()}</div>
+        </div>
 
+        <div className="metric-card secondary">
+          <div className="metric-label">Tổng số giao dịch</div>
+          <div className="metric-value">{formatNumber(reportData.totalTransactions)}</div>
+          <div className="metric-subtext">Trong {timePeriod.toLowerCase()}</div>
+        </div>
+
+        <div className="metric-card accent">
+          <div className="metric-label">Giá trị giao dịch</div>
+          <div className="metric-value" style={{ fontSize: '28px' }}>
+            {formatCurrency(reportData.transactionValue)}
+          </div>
+          <div className="metric-subtext">Trong {timePeriod.toLowerCase()}</div>
+        </div>
+
+        <div className="metric-card">
+          <div className="metric-label">Casa bình quân</div>
+          <div className="metric-value" style={{ fontSize: '28px' }}>
+            {formatCurrency(reportData.avgCasa)}
+          </div>
+          <div className="metric-subtext">Trong {timePeriod.toLowerCase()}</div>
+        </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="report-chart-container">
+        <h2 className="report-chart-header">Biểu đồ phân tích chi tiết</h2>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+          gap: '25px',
+          marginBottom: '30px'
+        }}>
+          {/* Chart 1: Customer Distribution */}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '20px'
+            backgroundColor: 'var(--background-color)',
+            borderRadius: '10px',
+            padding: '20px',
+            border: '2px solid var(--accent-color)',
+            minHeight: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}>
-            {/* Deployed Customers */}
-            <div style={{
-              padding: '20px',
-              backgroundColor: 'var(--accent-color)',
-              borderRadius: '8px',
-              border: '2px solid var(--primary-color)'
-            }}>
-              <h3 style={{ fontSize: '14px', marginBottom: '10px', color: 'var(--primary-color)' }}>
-                Khách hàng đã triển khai
-              </h3>
-              <div style={{ fontSize: '32px', fontWeight: '700', color: 'var(--primary-color)' }}>
-                {reportData.deployedCustomers}
-              </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Trong {timePeriod.toLowerCase()}
-              </div>
-            </div>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--primary-color)', marginBottom: '15px' }}>
+              Phân bố khách hàng theo trạng thái
+            </h3>
+            <div style={{ fontSize: '48px', marginBottom: '15px' }}>📈</div>
+            <p style={{ color: '#666', fontSize: '13px', textAlign: 'center' }}>
+              Biểu đồ tròn hiển thị tỷ lệ<br />khách hàng ở từng giai đoạn
+            </p>
+          </div>
 
-            {/* Total Transactions */}
-            <div style={{
-              padding: '20px',
-              backgroundColor: '#e8f5e9',
-              borderRadius: '8px',
-              border: '2px solid var(--success-color)'
-            }}>
-              <h3 style={{ fontSize: '14px', marginBottom: '10px', color: 'var(--success-color)' }}>
-                Tổng số giao dịch
-              </h3>
-              <div style={{ fontSize: '32px', fontWeight: '700', color: 'var(--success-color)' }}>
-                {formatNumber(reportData.totalTransactions)}
-              </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Trong {timePeriod.toLowerCase()}
-              </div>
-            </div>
+          {/* Chart 2: Transaction Trend */}
+          <div style={{
+            backgroundColor: 'var(--background-color)',
+            borderRadius: '10px',
+            padding: '20px',
+            border: '2px solid var(--accent-color)',
+            minHeight: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--primary-color)', marginBottom: '15px' }}>
+              Xu hướng giao dịch theo thời gian
+            </h3>
+            <div style={{ fontSize: '48px', marginBottom: '15px' }}>📊</div>
+            <p style={{ color: '#666', fontSize: '13px', textAlign: 'center' }}>
+              Biểu đồ đường theo dõi<br />số lượng và giá trị giao dịch
+            </p>
+          </div>
+        </div>
 
-            {/* Transaction Value */}
-            <div style={{
-              padding: '20px',
-              backgroundColor: '#fff3e0',
-              borderRadius: '8px',
-              border: '2px solid var(--secondary-color)'
-            }}>
-              <h3 style={{ fontSize: '14px', marginBottom: '10px', color: 'var(--secondary-color)' }}>
-                Giá trị giao dịch
-              </h3>
-              <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--secondary-color)' }}>
-                {formatCurrency(reportData.transactionValue)}
-              </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Trong {timePeriod.toLowerCase()}
-              </div>
-            </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+          gap: '25px'
+        }}>
+          {/* Chart 3: Service Type Distribution */}
+          <div style={{
+            backgroundColor: 'var(--background-color)',
+            borderRadius: '10px',
+            padding: '20px',
+            border: '2px solid var(--accent-color)',
+            minHeight: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--primary-color)', marginBottom: '15px' }}>
+              Phân loại theo dịch vụ
+            </h3>
+            <div style={{ fontSize: '48px', marginBottom: '15px' }}>📋</div>
+            <p style={{ color: '#666', fontSize: '13px', textAlign: 'center' }}>
+              Biểu đồ cột so sánh<br />Chi hộ, Thu hộ, Thu & Chi
+            </p>
+          </div>
 
-            {/* Average Casa */}
-            <div style={{
-              padding: '20px',
-              backgroundColor: '#f3e5f5',
-              borderRadius: '8px',
-              border: '2px solid #7b1fa2'
-            }}>
-              <h3 style={{ fontSize: '14px', marginBottom: '10px', color: '#7b1fa2' }}>
-                Casa bình quân
-              </h3>
-              <div style={{ fontSize: '24px', fontWeight: '700', color: '#7b1fa2' }}>
-                {formatCurrency(reportData.avgCasa)}
-              </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Trong {timePeriod.toLowerCase()}
-              </div>
-            </div>
+          {/* Chart 4: Regional Performance */}
+          <div style={{
+            backgroundColor: 'var(--background-color)',
+            borderRadius: '10px',
+            padding: '20px',
+            border: '2px solid var(--accent-color)',
+            minHeight: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--primary-color)', marginBottom: '15px' }}>
+              Hiệu suất theo khu vực
+            </h3>
+            <div style={{ fontSize: '48px', marginBottom: '15px' }}>🗺️</div>
+            <p style={{ color: '#666', fontSize: '13px', textAlign: 'center' }}>
+              So sánh thành tích<br />Miền Bắc và Miền Nam
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Visual placeholder for Power BI embed */}
-      <div className="card">
-        <h2 className="card-header">Biểu đồ & Phân tích</h2>
-        <div style={{
-          backgroundColor: 'var(--accent-color)',
-          borderRadius: '8px',
-          padding: '60px',
-          textAlign: 'center',
-          color: 'var(--primary-color)',
-          border: '2px dashed var(--primary-color)'
-        }}>
-          <div style={{ fontSize: '48px', marginBottom: '20px' }}>📊</div>
-          <h3 style={{ marginBottom: '10px' }}>Dashboard Power BI</h3>
-          <p style={{ fontSize: '14px', opacity: 0.8 }}>
-            Vùng này sẽ nhúng dashboard Power BI thực tế<br />
-            với các biểu đồ, báo cáo chi tiết và phân tích dữ liệu
-          </p>
-        </div>
-      </div>
-
       {/* Summary Table */}
-      <div className="card" style={{ marginTop: '20px' }}>
-        <h2 className="card-header">Thống kê chi tiết theo khách hàng</h2>
-        <div className="table-container">
+      <div className="report-chart-container">
+        <h2 className="report-chart-header">Thống kê chi tiết theo khách hàng</h2>
+        <div className="table-container" style={{ boxShadow: 'none' }}>
           <table className="table">
             <thead>
               <tr>
                 <th>Khách hàng</th>
                 <th>Trạng thái</th>
+                <th>Loại dịch vụ</th>
                 <th>Số GD (ước tính)</th>
                 <th>Giá trị GD (ước tính)</th>
               </tr>
@@ -243,9 +269,22 @@ const Reports = () => {
                   return (
                     <tr key={customer.id}>
                       <td style={{ fontWeight: '500' }}>{customer.name}</td>
-                      <td>{customer.status === 'Closure' ? 'Đã triển khai' : 'Đang triển khai'}</td>
+                      <td>
+                        <span style={{
+                          padding: '4px 10px',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          backgroundColor: customer.status === 'Closure' ? '#e8f5e9' : '#fff3e0',
+                          color: customer.status === 'Closure' ? '#2e7d32' : '#f57c00'
+                        }}>
+                          {customer.status === 'Closure' ? 'Đã triển khai' : 'Đang triển khai'}
+                        </span>
+                      </td>
+                      <td>{customer.serviceType}</td>
                       <td>{formatNumber(transactions)}</td>
-                      <td>{formatCurrency(value)}</td>
+                      <td style={{ fontWeight: '600', color: 'var(--secondary-color)' }}>
+                        {formatCurrency(value)}
+                      </td>
                     </tr>
                   );
                 })}

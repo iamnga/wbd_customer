@@ -1,14 +1,20 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCustomers } from '../contexts/CustomerContext';
 import StatusBadge from '../components/StatusBadge';
+import type { Handler } from '../types';
 
 const Home = () => {
   const { customers } = useCustomers();
   const navigate = useNavigate();
+  const [selectedHandler, setSelectedHandler] = useState<Handler>('Hoàng Phương Nhi');
 
-  // Filter customers excluding Closure and Canceled
+  // Filter customers excluding Closure and Canceled AND by selected handler
   const activeCustomers = customers.filter(
-    customer => customer.status !== 'Closure' && customer.status !== 'Canceled'
+    customer =>
+      customer.status !== 'Closure' &&
+      customer.status !== 'Canceled' &&
+      customer.handler === selectedHandler
   );
 
   // Calculate statistics
@@ -17,127 +23,61 @@ const Home = () => {
   const deployingCustomers = customers.filter(
     c => c.status !== 'Closure' && c.status !== 'Canceled'
   ).length;
-  const canceledCustomers = customers.filter(c => c.status === 'Canceled').length;
-
-  // Calculate success rate
-  const successRate = totalCustomers > 0
-    ? Math.round((deployedCustomers / (totalCustomers - canceledCustomers)) * 100)
-    : 0;
-
-  // Get status distribution
-  const statusCounts = {
-    Initiation: customers.filter(c => c.status === 'Initiation').length,
-    Planning: customers.filter(c => c.status === 'Planning').length,
-    Execution: customers.filter(c => c.status === 'Execution').length,
-    MonitorNControl: customers.filter(c => c.status === 'MonitorNControl').length,
-  };
 
   const handleCardClick = (customerId: string) => {
     navigate(`/customers/${customerId}`);
   };
 
+  const getServiceTagClass = (serviceType: string) => {
+    switch (serviceType) {
+      case 'Chi hộ':
+        return 'service-tag service-tag-chi';
+      case 'Thu hộ':
+        return 'service-tag service-tag-thu';
+      case 'Thu & Chi':
+        return 'service-tag service-tag-both';
+      default:
+        return 'service-tag';
+    }
+  };
+
   return (
     <div>
       <div className="page-header">
-        <h1 className="page-title">Dashboard Overview</h1>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button className="btn btn-primary" onClick={() => navigate('/customers/new')}>
-            + Thêm khách hàng
-          </button>
-          <button className="btn btn-outline" onClick={() => navigate('/reports')}>
-            📊 Xem báo cáo
-          </button>
-        </div>
+        <h1 className="page-title">Trang chủ</h1>
       </div>
 
-      {/* Enhanced Statistics Cards */}
+      {/* Statistics Cards */}
       <div className="stats-grid">
-        <div className="stat-card-enhanced" style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          boxShadow: '0 8px 20px rgba(102, 126, 234, 0.3)'
-        }}>
-          <div className="stat-icon">👥</div>
-          <div className="stat-content">
-            <h3>Tổng khách hàng</h3>
-            <div className="stat-value">{totalCustomers}</div>
-            <div className="stat-trend">
-              <span style={{ color: '#4caf50' }}>↑ 12%</span> so với tháng trước
-            </div>
-          </div>
+        <div className="stat-card">
+          <h3>Tổng số khách hàng</h3>
+          <div className="stat-value">{totalCustomers}</div>
         </div>
-
-        <div className="stat-card-enhanced" style={{
-          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-          boxShadow: '0 8px 20px rgba(240, 147, 251, 0.3)'
-        }}>
-          <div className="stat-icon">✅</div>
-          <div className="stat-content">
-            <h3>Đã triển khai</h3>
-            <div className="stat-value">{deployedCustomers}</div>
-            <div className="stat-progress">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${successRate}%` }}></div>
-              </div>
-              <span className="progress-label">{successRate}% tỷ lệ thành công</span>
-            </div>
-          </div>
+        <div className="stat-card">
+          <h3>KH đã triển khai</h3>
+          <div className="stat-value">{deployedCustomers}</div>
         </div>
-
-        <div className="stat-card-enhanced" style={{
-          background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-          boxShadow: '0 8px 20px rgba(79, 172, 254, 0.3)'
-        }}>
-          <div className="stat-icon">🚀</div>
-          <div className="stat-content">
-            <h3>Đang triển khai</h3>
-            <div className="stat-value">{deployingCustomers}</div>
-            <div className="stat-trend">
-              <span style={{ color: '#ff9800' }}>⚡</span> {deployingCustomers} dự án đang chạy
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Project Status Overview */}
-      <div className="card" style={{ marginBottom: '30px' }}>
-        <h2 className="card-header" style={{ marginBottom: '20px' }}>Tổng quan trạng thái dự án</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-          <div className="status-overview-item">
-            <div className="status-overview-icon" style={{ background: '#e3f2fd' }}>📝</div>
-            <div className="status-overview-content">
-              <div className="status-overview-label">Initiation</div>
-              <div className="status-overview-value">{statusCounts.Initiation}</div>
-            </div>
-          </div>
-          <div className="status-overview-item">
-            <div className="status-overview-icon" style={{ background: '#fff3e0' }}>📋</div>
-            <div className="status-overview-content">
-              <div className="status-overview-label">Planning</div>
-              <div className="status-overview-value">{statusCounts.Planning}</div>
-            </div>
-          </div>
-          <div className="status-overview-item">
-            <div className="status-overview-icon" style={{ background: '#f3e5f5' }}>⚙️</div>
-            <div className="status-overview-content">
-              <div className="status-overview-label">Execution</div>
-              <div className="status-overview-value">{statusCounts.Execution}</div>
-            </div>
-          </div>
-          <div className="status-overview-item">
-            <div className="status-overview-icon" style={{ background: '#e0f2f1' }}>📊</div>
-            <div className="status-overview-content">
-              <div className="status-overview-label">Monitor & Control</div>
-              <div className="status-overview-value">{statusCounts.MonitorNControl}</div>
-            </div>
-          </div>
+        <div className="stat-card">
+          <h3>KH đang triển khai</h3>
+          <div className="stat-value">{deployingCustomers}</div>
         </div>
       </div>
 
       {/* Tasks/Active Customers */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '22px', fontWeight: '600', color: 'var(--primary-color)' }}>
-          Dự án đang hoạt động ({activeCustomers.length})
-        </h2>
+      <div className="card">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h2 className="card-header" style={{ marginBottom: 0 }}>Tác vụ của tôi</h2>
+          <div className="form-group" style={{ marginBottom: 0, minWidth: '250px' }}>
+            <select
+              className="form-select"
+              value={selectedHandler}
+              onChange={(e) => setSelectedHandler(e.target.value as Handler)}
+            >
+              <option value="Hoàng Phương Nhi">Hoàng Phương Nhi</option>
+              <option value="Nguyễn Hữu Cường">Nguyễn Hữu Cường</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="card-grid">
@@ -155,12 +95,14 @@ const Home = () => {
               <StatusBadge status={customer.status} />
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <div style={{ fontSize: '12px', color: '#666', marginBottom: '5px' }}>Người xử lý (PIC)</div>
+              <div style={{ fontSize: '12px', color: '#666', marginBottom: '5px' }}>Người xử lý</div>
               <div style={{ fontSize: '14px', fontWeight: '500' }}>{customer.handler}</div>
             </div>
             <div style={{ marginBottom: '10px' }}>
               <div style={{ fontSize: '12px', color: '#666', marginBottom: '5px' }}>Dịch vụ</div>
-              <div style={{ fontSize: '14px', fontWeight: '500' }}>{customer.serviceType}</div>
+              <span className={getServiceTagClass(customer.serviceType)}>
+                {customer.serviceType}
+              </span>
             </div>
             <div>
               <div style={{ fontSize: '12px', color: '#666', marginBottom: '5px' }}>Ngày golive dự kiến</div>
@@ -174,7 +116,7 @@ const Home = () => {
 
       {activeCustomers.length === 0 && (
         <div className="card text-center">
-          <p>Không có tác vụ nào đang hoạt động</p>
+          <p>Không có tác vụ nào đang hoạt động cho {selectedHandler}</p>
         </div>
       )}
     </div>
