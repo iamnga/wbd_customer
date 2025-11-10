@@ -215,25 +215,13 @@ const CustomerDetail = () => {
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Title level={2} style={{ margin: 0, color: '#2b6cae' }}>
-          {mode === 'new'
-            ? 'Tạo mới khách hàng'
-            : mode === 'edit'
-            ? 'Chỉnh sửa khách hàng'
-            : 'Chi tiết khách hàng'}
-        </Title>
-        <Space size="middle">
-          <Button size="large" icon={<ArrowLeftOutlined />} onClick={() => navigate('/customers')}>
-            Quay lại
-          </Button>
-          {mode === 'view' && (
-            <Button type="primary" size="large" icon={<EditOutlined />} onClick={() => setMode('edit')}>
-              Chỉnh sửa
-            </Button>
-          )}
-        </Space>
-      </div>
+      <Title level={2} style={{ margin: 0, color: '#2b6cae' }}>
+        {mode === 'new'
+          ? 'Tạo mới khách hàng'
+          : mode === 'edit'
+          ? 'Chỉnh sửa khách hàng'
+          : 'Chi tiết khách hàng'}
+      </Title>
 
       {/* Success/Error Messages */}
       {successMessage && <Alert message={successMessage} type="success" showIcon closable />}
@@ -384,56 +372,52 @@ const CustomerDetail = () => {
             <Form.Item label="Ghi chú" name="notes">
               <TextArea rows={4} placeholder="Nhập ghi chú (không bắt buộc)" />
             </Form.Item>
-
-            {/* Action Buttons */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                gap: '12px',
-                marginTop: 32,
-                paddingTop: 24,
-                borderTop: '1px solid #f0f0f0'
-              }}
-            >
-              {mode === 'edit' && (
-                <Button size="large" icon={<CloseOutlined />} onClick={() => setMode('view')}>
-                  Hủy
-                </Button>
-              )}
-              <Button
-                type="primary"
-                size="large"
-                icon={mode === 'new' ? <PlusOutlined /> : <SaveOutlined />}
-                onClick={handleSubmit}
-              >
-                {mode === 'new' ? 'Tạo mới' : 'Lưu thay đổi'}
-              </Button>
-            </div>
-
-            {/* Destructive Action - Separated at bottom */}
-            {mode === 'edit' && customer?.status !== 'Canceled' && (
-              <div style={{
-                marginTop: 32,
-                paddingTop: 24,
-                borderTop: '2px solid #ffebee'
-              }}>
-                <Button
-                  danger
-                  size="large"
-                  icon={<StopOutlined />}
-                  onClick={() => setShowCancelModal(true)}
-                >
-                  Dừng triển khai
-                </Button>
-                <div style={{ fontSize: 12, color: '#999', marginTop: 8 }}>
-                  ⚠️ Lưu ý: Hành động này sẽ đánh dấu khách hàng là đã hủy triển khai
-                </div>
-              </div>
-            )}
           </Form>
         )}
       </Card>
+
+      {/* Footer Buttons */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: 24,
+        borderTop: '1px solid #f0f0f0'
+      }}>
+        <Button size="large" icon={<ArrowLeftOutlined />} onClick={() => navigate('/customers')}>
+          Quay lại
+        </Button>
+
+        <Space size="middle">
+          {mode === 'view' && (
+            <Button type="primary" size="large" icon={<EditOutlined />} onClick={() => setMode('edit')}>
+              Chỉnh sửa
+            </Button>
+          )}
+
+          {mode === 'edit' && customer?.status !== 'Canceled' && (
+            <Button
+              danger
+              size="large"
+              icon={<StopOutlined />}
+              onClick={() => setShowCancelModal(true)}
+            >
+              Dừng triển khai
+            </Button>
+          )}
+
+          {(mode === 'edit' || mode === 'new') && (
+            <Button
+              type="primary"
+              size="large"
+              icon={mode === 'new' ? <PlusOutlined /> : <SaveOutlined />}
+              onClick={handleSubmit}
+            >
+              {mode === 'new' ? 'Tạo mới' : 'Lưu thay đổi'}
+            </Button>
+          )}
+        </Space>
+      </div>
 
       {/* Cancel Modal */}
       <Modal
