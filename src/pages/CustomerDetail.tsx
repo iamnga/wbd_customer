@@ -253,6 +253,72 @@ const CustomerDetail = () => {
                   ? dayjs(customer.expectedEndDate).format('DD/MM/YYYY')
                   : ''}
               </Descriptions.Item>
+              <Descriptions.Item label="Số CIF">
+                {customer.cif || '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Ngành nghề kinh doanh">
+                {customer.industry || '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Website">
+                {customer.website ? (
+                  <a href={customer.website} target="_blank" rel="noopener noreferrer">
+                    {customer.website}
+                  </a>
+                ) : '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email RM quản lý">
+                {customer.rmEmail ? (
+                  <a href={`mailto:${customer.rmEmail}`}>{customer.rmEmail}</a>
+                ) : '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email SM quản lý">
+                {customer.smEmail ? (
+                  <a href={`mailto:${customer.smEmail}`}>{customer.smEmail}</a>
+                ) : '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Link tài liệu liên quan" span={2}>
+                {customer.documentsLink ? (
+                  <a href={customer.documentsLink} target="_blank" rel="noopener noreferrer">
+                    {customer.documentsLink}
+                  </a>
+                ) : '-'}
+              </Descriptions.Item>
+              {(customer.contact1?.fullName || customer.contact1?.title || customer.contact1?.email || customer.contact1?.phone) && (
+                <>
+                  <Descriptions.Item label="Liên hệ 1 - Họ tên">
+                    {customer.contact1?.fullName || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Liên hệ 1 - Chức danh">
+                    {customer.contact1?.title || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Liên hệ 1 - Email">
+                    {customer.contact1?.email ? (
+                      <a href={`mailto:${customer.contact1.email}`}>{customer.contact1.email}</a>
+                    ) : '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Liên hệ 1 - Số điện thoại">
+                    {customer.contact1?.phone || '-'}
+                  </Descriptions.Item>
+                </>
+              )}
+              {(customer.contact2?.fullName || customer.contact2?.title || customer.contact2?.email || customer.contact2?.phone) && (
+                <>
+                  <Descriptions.Item label="Liên hệ 2 - Họ tên">
+                    {customer.contact2?.fullName || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Liên hệ 2 - Chức danh">
+                    {customer.contact2?.title || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Liên hệ 2 - Email">
+                    {customer.contact2?.email ? (
+                      <a href={`mailto:${customer.contact2.email}`}>{customer.contact2.email}</a>
+                    ) : '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Liên hệ 2 - Số điện thoại">
+                    {customer.contact2?.phone || '-'}
+                  </Descriptions.Item>
+                </>
+              )}
               <Descriptions.Item label="Ghi chú" span={2}>
                 {customer.notes || 'Không có ghi chú'}
               </Descriptions.Item>
@@ -367,9 +433,112 @@ const CustomerDetail = () => {
               >
                 <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
               </Form.Item>
+
+              <Form.Item label="Số CIF" name="cif">
+                <Input placeholder="Nhập số CIF khách hàng" />
+              </Form.Item>
+
+              <Form.Item label="Ngành nghề kinh doanh" name="industry">
+                <Select
+                  showSearch
+                  placeholder="Chọn ngành nghề"
+                  filterOption={(input, option) =>
+                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                  options={[
+                    { value: 'Nông nghiệp, lâm nghiệp và thủy sản', label: 'Nông nghiệp, lâm nghiệp và thủy sản' },
+                    { value: 'Khai khoáng', label: 'Khai khoáng' },
+                    { value: 'Công nghiệp chế biến, chế tạo', label: 'Công nghiệp chế biến, chế tạo' },
+                    { value: 'Sản xuất và phân phối điện, khí đốt, hơi nước và điều hòa không khí', label: 'Sản xuất và phân phối điện, khí đốt, hơi nước và điều hòa không khí' },
+                    { value: 'Cung cấp nước; hoạt động quản lý và xử lý rác thải, nước thải', label: 'Cung cấp nước; hoạt động quản lý và xử lý rác thải, nước thải' },
+                    { value: 'Xây dựng', label: 'Xây dựng' },
+                    { value: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác', label: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác' },
+                    { value: 'Vận tải, kho bãi', label: 'Vận tải, kho bãi' },
+                    { value: 'Dịch vụ lưu trú và ăn uống', label: 'Dịch vụ lưu trú và ăn uống' },
+                    { value: 'Thông tin và truyền thông', label: 'Thông tin và truyền thông' },
+                    { value: 'Hoạt động tài chính, ngân hàng và bảo hiểm', label: 'Hoạt động tài chính, ngân hàng và bảo hiểm' },
+                    { value: 'Hoạt động kinh doanh bất động sản', label: 'Hoạt động kinh doanh bất động sản' },
+                    { value: 'Hoạt động chuyên môn, khoa học và công nghệ', label: 'Hoạt động chuyên môn, khoa học và công nghệ' },
+                    { value: 'Hoạt động hành chính và dịch vụ hỗ trợ', label: 'Hoạt động hành chính và dịch vụ hỗ trợ' },
+                    { value: 'Hoạt động của Đảng, tổ chức chính trị – xã hội, quản lý nhà nước, an ninh quốc phòng; bảo đảm xã hội bắt buộc', label: 'Hoạt động của Đảng, tổ chức chính trị – xã hội, quản lý nhà nước, an ninh quốc phòng; bảo đảm xã hội bắt buộc' },
+                    { value: 'Giáo dục và đào tạo', label: 'Giáo dục và đào tạo' },
+                    { value: 'Y tế và hoạt động trợ giúp xã hội', label: 'Y tế và hoạt động trợ giúp xã hội' },
+                    { value: 'Nghệ thuật, vui chơi và giải trí', label: 'Nghệ thuật, vui chơi và giải trí' },
+                    { value: 'Hoạt động dịch vụ khác', label: 'Hoạt động dịch vụ khác' },
+                    { value: 'Hoạt động của hộ gia đình với tư cách người sử dụng lao động; sản xuất sản phẩm tự tiêu dùng của hộ gia đình', label: 'Hoạt động của hộ gia đình với tư cách người sử dụng lao động; sản xuất sản phẩm tự tiêu dùng của hộ gia đình' },
+                    { value: 'Hoạt động của các tổ chức và cơ quan quốc tế', label: 'Hoạt động của các tổ chức và cơ quan quốc tế' },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item label="Website" name="website">
+                <Input placeholder="https://example.com" />
+              </Form.Item>
             </div>
 
-            <Form.Item label="Ghi chú" name="notes">
+            <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
+              Thông tin quản lý
+            </Title>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+              <Form.Item label="Email RM quản lý" name="rmEmail">
+                <Input type="email" placeholder="rm@example.com" />
+              </Form.Item>
+
+              <Form.Item label="Email SM quản lý" name="smEmail">
+                <Input type="email" placeholder="sm@example.com" />
+              </Form.Item>
+
+              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: '1 / -1' }}>
+                <Input placeholder="https://sharepoint.com/..." />
+              </Form.Item>
+            </div>
+
+            <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
+              Liên hệ khách hàng 1
+            </Title>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+              <Form.Item label="Họ tên" name={['contact1', 'fullName']}>
+                <Input placeholder="Nhập họ tên" />
+              </Form.Item>
+
+              <Form.Item label="Chức danh" name={['contact1', 'title']}>
+                <Input placeholder="Nhập chức danh" />
+              </Form.Item>
+
+              <Form.Item label="Email" name={['contact1', 'email']}>
+                <Input type="email" placeholder="contact1@example.com" />
+              </Form.Item>
+
+              <Form.Item label="Số điện thoại" name={['contact1', 'phone']}>
+                <Input placeholder="0xxx xxx xxx" />
+              </Form.Item>
+            </div>
+
+            <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
+              Liên hệ khách hàng 2
+            </Title>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+              <Form.Item label="Họ tên" name={['contact2', 'fullName']}>
+                <Input placeholder="Nhập họ tên" />
+              </Form.Item>
+
+              <Form.Item label="Chức danh" name={['contact2', 'title']}>
+                <Input placeholder="Nhập chức danh" />
+              </Form.Item>
+
+              <Form.Item label="Email" name={['contact2', 'email']}>
+                <Input type="email" placeholder="contact2@example.com" />
+              </Form.Item>
+
+              <Form.Item label="Số điện thoại" name={['contact2', 'phone']}>
+                <Input placeholder="0xxx xxx xxx" />
+              </Form.Item>
+            </div>
+
+            <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
+              Ghi chú
+            </Title>
+            <Form.Item name="notes">
               <TextArea rows={4} placeholder="Nhập ghi chú (không bắt buộc)" />
             </Form.Item>
           </Form>
