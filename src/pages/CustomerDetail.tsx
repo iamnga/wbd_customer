@@ -486,6 +486,10 @@ const CustomerDetail = () => {
               <Form.Item label="Website" name="website">
                 <Input placeholder="https://example.com" />
               </Form.Item>
+
+              <Form.Item label="Link tài liệu liên quan" name="documentsLink">
+                <Input placeholder="https://sharepoint.com/..." />
+              </Form.Item>
             </div>
 
             <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
@@ -527,10 +531,6 @@ const CustomerDetail = () => {
 
               <Form.Item label="Số điện thoại" name={['smContact', 'phone']}>
                 <Input placeholder="0xxx xxx xxx" />
-              </Form.Item>
-
-              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: 'span 4' }}>
-                <Input placeholder="https://sharepoint.com/..." />
               </Form.Item>
             </div>
 
