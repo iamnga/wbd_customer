@@ -16,8 +16,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-10',
     cif: 'CIF0001234567',
     documentsLink: 'https://sharepoint.com/sites/projects/thegioididong',
-    rmEmail: 'rm.thegioididong@example.com',
-    smEmail: 'sm.thegioididong@example.com',
+    rmContact: {
+      fullName: 'Nguyễn Thị Lan',
+      title: 'Relationship Manager',
+      email: 'lan.nguyen@bank.com',
+      phone: '0987654321'
+    },
+    smContact: {
+      fullName: 'Trần Văn Hùng',
+      title: 'Sales Manager',
+      email: 'hung.tran@bank.com',
+      phone: '0987654322'
+    },
     industry: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác',
     website: 'https://www.thegioididong.com',
     contact1: {
@@ -48,8 +58,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-05',
     cif: 'CIF0002345678',
     documentsLink: 'https://sharepoint.com/sites/projects/viettel',
-    rmEmail: 'rm.viettel@example.com',
-    smEmail: 'sm.viettel@example.com',
+    rmContact: {
+      fullName: 'Phạm Minh Tuấn',
+      title: 'Relationship Manager',
+      email: 'tuan.pham@bank.com',
+      phone: '0987654323'
+    },
+    smContact: {
+      fullName: 'Lê Thị Hoa',
+      title: 'Sales Manager',
+      email: 'hoa.le@bank.com',
+      phone: '0987654324'
+    },
     industry: 'Thông tin và truyền thông',
     website: 'https://www.viettel.com.vn',
     contact1: {
@@ -80,8 +100,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-01-20',
     cif: 'CIF0003456789',
     documentsLink: 'https://sharepoint.com/sites/projects/sabeco',
-    rmEmail: 'rm.sabeco@example.com',
-    smEmail: 'sm.sabeco@example.com',
+    rmContact: {
+      fullName: 'Đỗ Văn Nam',
+      title: 'Relationship Manager',
+      email: 'nam.do@bank.com',
+      phone: '0987654325'
+    },
+    smContact: {
+      fullName: 'Vũ Thị Mai',
+      title: 'Sales Manager',
+      email: 'mai.vu@bank.com',
+      phone: '0987654326'
+    },
     industry: 'Công nghiệp chế biến, chế tạo',
     website: 'https://www.sabeco.com.vn',
     contact1: {
@@ -112,8 +142,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-20',
     cif: 'CIF0004567890',
     documentsLink: 'https://sharepoint.com/sites/projects/shopee',
-    rmEmail: 'rm.shopee@example.com',
-    smEmail: 'sm.shopee@example.com',
+    rmContact: {
+      fullName: 'Hoàng Minh Đức',
+      title: 'Relationship Manager',
+      email: 'duc.hoang@bank.com',
+      phone: '0987654327'
+    },
+    smContact: {
+      fullName: 'Bùi Thị Thanh',
+      title: 'Sales Manager',
+      email: 'thanh.bui@bank.com',
+      phone: '0987654328'
+    },
     industry: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác',
     website: 'https://www.shopee.vn',
     contact1: {
@@ -144,8 +184,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-08',
     cif: 'CIF0005678901',
     documentsLink: 'https://sharepoint.com/sites/projects/sendo',
-    rmEmail: 'rm.sendo@example.com',
-    smEmail: 'sm.sendo@example.com',
+    rmContact: {
+      fullName: 'Đặng Thị Phương',
+      title: 'Relationship Manager',
+      email: 'phuong.dang@bank.com',
+      phone: '0987654329'
+    },
+    smContact: {
+      fullName: 'Lý Văn Kiên',
+      title: 'Sales Manager',
+      email: 'kien.ly@bank.com',
+      phone: '0987654330'
+    },
     industry: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác',
     website: 'https://www.sendo.vn',
     contact1: {
@@ -176,8 +226,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-12',
     cif: 'CIF0006789012',
     documentsLink: 'https://sharepoint.com/sites/projects/momo',
-    rmEmail: 'rm.momo@example.com',
-    smEmail: 'sm.momo@example.com',
+    rmContact: {
+      fullName: 'Trần Thị Ngọc',
+      title: 'Relationship Manager',
+      email: 'ngoc.tran@bank.com',
+      phone: '0987654331'
+    },
+    smContact: {
+      fullName: 'Ngô Văn Đức',
+      title: 'Sales Manager',
+      email: 'duc.ngo@bank.com',
+      phone: '0987654332'
+    },
     industry: 'Hoạt động tài chính, ngân hàng và bảo hiểm',
     website: 'https://www.momo.vn',
     contact1: {
@@ -208,8 +268,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-25',
     cif: 'CIF0007890123',
     documentsLink: 'https://sharepoint.com/sites/projects/vnptpay',
-    rmEmail: 'rm.vnptpay@example.com',
-    smEmail: 'sm.vnptpay@example.com',
+    rmContact: {
+      fullName: 'Võ Thị Thu',
+      title: 'Relationship Manager',
+      email: 'thu.vo@bank.com',
+      phone: '0987654333'
+    },
+    smContact: {
+      fullName: 'Phan Văn Long',
+      title: 'Sales Manager',
+      email: 'long.phan@bank.com',
+      phone: '0987654334'
+    },
     industry: 'Hoạt động tài chính, ngân hàng và bảo hiểm',
     website: 'https://www.vnptpay.vn',
     contact1: {
@@ -240,8 +310,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-01-31',
     cif: 'CIF0008901234',
     documentsLink: 'https://sharepoint.com/sites/projects/fpt-telecom',
-    rmEmail: 'rm.fpttelecom@example.com',
-    smEmail: 'sm.fpttelecom@example.com',
+    rmContact: {
+      fullName: 'Lê Văn Hải',
+      title: 'Relationship Manager',
+      email: 'hai.le@bank.com',
+      phone: '0987654335'
+    },
+    smContact: {
+      fullName: 'Đinh Thị Hương',
+      title: 'Sales Manager',
+      email: 'huong.dinh@bank.com',
+      phone: '0987654336'
+    },
     industry: 'Thông tin và truyền thông',
     website: 'https://www.fpt.com.vn',
     contact1: {
@@ -273,8 +353,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-01-15',
     cif: 'CIF0009012345',
     documentsLink: 'https://sharepoint.com/sites/projects/tiki',
-    rmEmail: 'rm.tiki@example.com',
-    smEmail: 'sm.tiki@example.com',
+    rmContact: {
+      fullName: 'Cao Văn Bình',
+      title: 'Relationship Manager',
+      email: 'binh.cao@bank.com',
+      phone: '0987654337'
+    },
+    smContact: {
+      fullName: 'Hồ Thị Linh',
+      title: 'Sales Manager',
+      email: 'linh.ho@bank.com',
+      phone: '0987654338'
+    },
     industry: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác',
     website: 'https://www.tiki.vn',
     contact1: {
@@ -305,8 +395,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-15',
     cif: 'CIF0010123456',
     documentsLink: 'https://sharepoint.com/sites/projects/vincommerce',
-    rmEmail: 'rm.vincommerce@example.com',
-    smEmail: 'sm.vincommerce@example.com',
+    rmContact: {
+      fullName: 'Mai Văn Tâm',
+      title: 'Relationship Manager',
+      email: 'tam.mai@bank.com',
+      phone: '0987654339'
+    },
+    smContact: {
+      fullName: 'Tô Thị Nhung',
+      title: 'Sales Manager',
+      email: 'nhung.to@bank.com',
+      phone: '0987654340'
+    },
     industry: 'Bán buôn và bán lẻ; sửa chữa ô tô, mô tô, xe máy và xe có động cơ khác',
     website: 'https://www.vincommerce.com',
     contact1: {
@@ -337,8 +437,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-01-25',
     cif: 'CIF0011234567',
     documentsLink: 'https://sharepoint.com/sites/projects/vnpt',
-    rmEmail: 'rm.vnpt@example.com',
-    smEmail: 'sm.vnpt@example.com',
+    rmContact: {
+      fullName: 'Chu Văn Dũng',
+      title: 'Relationship Manager',
+      email: 'dung.chu@bank.com',
+      phone: '0987654341'
+    },
+    smContact: {
+      fullName: 'Dương Thị Vân',
+      title: 'Sales Manager',
+      email: 'van.duong@bank.com',
+      phone: '0987654342'
+    },
     industry: 'Thông tin và truyền thông',
     website: 'https://www.vnpt.com.vn',
     contact1: {
@@ -369,8 +479,18 @@ export const mockCustomers: Customer[] = [
     updatedAt: '2025-02-18',
     cif: 'CIF0012345678',
     documentsLink: 'https://sharepoint.com/sites/projects/grab',
-    rmEmail: 'rm.grab@example.com',
-    smEmail: 'sm.grab@example.com',
+    rmContact: {
+      fullName: 'Lâm Văn Phúc',
+      title: 'Relationship Manager',
+      email: 'phuc.lam@bank.com',
+      phone: '0987654343'
+    },
+    smContact: {
+      fullName: 'Huỳnh Thị An',
+      title: 'Sales Manager',
+      email: 'an.huynh@bank.com',
+      phone: '0987654344'
+    },
     industry: 'Vận tải, kho bãi',
     website: 'https://www.grab.com/vn',
     contact1: {

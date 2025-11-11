@@ -61,8 +61,8 @@ export interface Customer {
   // New fields
   cif?: string;
   documentsLink?: string;
-  rmEmail?: string;
-  smEmail?: string;
+  rmContact?: ContactInfo;
+  smContact?: ContactInfo;
   industry?: Industry;
   website?: string;
   contact1?: ContactInfo;

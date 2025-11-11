@@ -266,16 +266,6 @@ const CustomerDetail = () => {
                   </a>
                 ) : '-'}
               </Descriptions.Item>
-              <Descriptions.Item label="Email RM quản lý">
-                {customer.rmEmail ? (
-                  <a href={`mailto:${customer.rmEmail}`}>{customer.rmEmail}</a>
-                ) : '-'}
-              </Descriptions.Item>
-              <Descriptions.Item label="Email SM quản lý">
-                {customer.smEmail ? (
-                  <a href={`mailto:${customer.smEmail}`}>{customer.smEmail}</a>
-                ) : '-'}
-              </Descriptions.Item>
               <Descriptions.Item label="Link tài liệu liên quan" span={2}>
                 {customer.documentsLink ? (
                   <a href={customer.documentsLink} target="_blank" rel="noopener noreferrer">
@@ -283,6 +273,42 @@ const CustomerDetail = () => {
                   </a>
                 ) : '-'}
               </Descriptions.Item>
+              {(customer.rmContact?.fullName || customer.rmContact?.title || customer.rmContact?.email || customer.rmContact?.phone) && (
+                <>
+                  <Descriptions.Item label="RM - Họ tên">
+                    {customer.rmContact?.fullName || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="RM - Chức danh">
+                    {customer.rmContact?.title || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="RM - Email">
+                    {customer.rmContact?.email ? (
+                      <a href={`mailto:${customer.rmContact.email}`}>{customer.rmContact.email}</a>
+                    ) : '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="RM - Số điện thoại">
+                    {customer.rmContact?.phone || '-'}
+                  </Descriptions.Item>
+                </>
+              )}
+              {(customer.smContact?.fullName || customer.smContact?.title || customer.smContact?.email || customer.smContact?.phone) && (
+                <>
+                  <Descriptions.Item label="SM - Họ tên">
+                    {customer.smContact?.fullName || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="SM - Chức danh">
+                    {customer.smContact?.title || '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="SM - Email">
+                    {customer.smContact?.email ? (
+                      <a href={`mailto:${customer.smContact.email}`}>{customer.smContact.email}</a>
+                    ) : '-'}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="SM - Số điện thoại">
+                    {customer.smContact?.phone || '-'}
+                  </Descriptions.Item>
+                </>
+              )}
               {(customer.contact1?.fullName || customer.contact1?.title || customer.contact1?.email || customer.contact1?.phone) && (
                 <>
                   <Descriptions.Item label="Liên hệ 1 - Họ tên">
@@ -399,38 +425,26 @@ const CustomerDetail = () => {
                 />
               </Form.Item>
 
-              <Form.Item label="Trạng thái" name="status">
-                <Select
-                  disabled={mode === 'new'}
-                  options={[
-                    { value: 'Initiation', label: 'Initiation' },
-                    { value: 'Planning', label: 'Planning' },
-                    { value: 'Execution', label: 'Execution' },
-                    { value: 'MonitorNControl', label: 'Monitor & Control' },
-                    { value: 'Closure', label: 'Closure' },
-                    { value: 'Canceled', label: 'Canceled' },
-                  ]}
-                />
-                {mode === 'new' && (
-                  <Text type="secondary" style={{ fontSize: 12 }}>
-                    Trạng thái mặc định là "Initiation" khi tạo mới
-                  </Text>
-                )}
-              </Form.Item>
+              {mode !== 'new' && (
+                <Form.Item label="Trạng thái" name="status">
+                  <Select
+                    options={[
+                      { value: 'Initiation', label: 'Initiation' },
+                      { value: 'Planning', label: 'Planning' },
+                      { value: 'Execution', label: 'Execution' },
+                      { value: 'MonitorNControl', label: 'Monitor & Control' },
+                      { value: 'Closure', label: 'Closure' },
+                      { value: 'Canceled', label: 'Canceled' },
+                    ]}
+                  />
+                </Form.Item>
+              )}
 
-              <Form.Item
-                label="Ngày bắt đầu"
-                name="startDate"
-                rules={[{ required: true, message: 'Vui lòng chọn ngày bắt đầu' }]}
-              >
+              <Form.Item label="Ngày bắt đầu" name="startDate">
                 <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
               </Form.Item>
 
-              <Form.Item
-                label="Ngày kết thúc dự kiến"
-                name="expectedEndDate"
-                rules={[{ required: true, message: 'Vui lòng chọn ngày kết thúc dự kiến' }]}
-              >
+              <Form.Item label="Ngày kết thúc dự kiến" name="expectedEndDate">
                 <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
               </Form.Item>
 
@@ -477,18 +491,47 @@ const CustomerDetail = () => {
             </div>
 
             <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
-              Thông tin quản lý
+              Thông tin RM quản lý
             </Title>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0 16px' }}>
-              <Form.Item label="Email RM quản lý" name="rmEmail">
+              <Form.Item label="Họ tên" name={['rmContact', 'fullName']}>
+                <Input placeholder="Nhập họ tên RM" />
+              </Form.Item>
+
+              <Form.Item label="Chức danh" name={['rmContact', 'title']}>
+                <Input placeholder="Nhập chức danh" />
+              </Form.Item>
+
+              <Form.Item label="Email" name={['rmContact', 'email']}>
                 <Input type="email" placeholder="rm@example.com" />
               </Form.Item>
 
-              <Form.Item label="Email SM quản lý" name="smEmail">
+              <Form.Item label="Số điện thoại" name={['rmContact', 'phone']}>
+                <Input placeholder="0xxx xxx xxx" />
+              </Form.Item>
+            </div>
+
+            <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
+              Thông tin SM quản lý
+            </Title>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0 16px' }}>
+              <Form.Item label="Họ tên" name={['smContact', 'fullName']}>
+                <Input placeholder="Nhập họ tên SM" />
+              </Form.Item>
+
+              <Form.Item label="Chức danh" name={['smContact', 'title']}>
+                <Input placeholder="Nhập chức danh" />
+              </Form.Item>
+
+              <Form.Item label="Email" name={['smContact', 'email']}>
                 <Input type="email" placeholder="sm@example.com" />
               </Form.Item>
 
-              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: 'span 2' }}>
+              <Form.Item label="Số điện thoại" name={['smContact', 'phone']}>
+                <Input placeholder="0xxx xxx xxx" />
+              </Form.Item>
+
+              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: 'span 4' }}>
                 <Input placeholder="https://sharepoint.com/..." />
               </Form.Item>
             </div>
