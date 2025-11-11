@@ -387,7 +387,6 @@ const CustomerDetail = () => {
               <Form.Item
                 label="Miền"
                 name="region"
-                rules={[{ required: true, message: 'Vui lòng chọn miền' }]}
               >
                 <Select
                   options={[
@@ -400,7 +399,6 @@ const CustomerDetail = () => {
               <Form.Item
                 label="Chi nhánh"
                 name="branch"
-                rules={[{ required: true, message: 'Vui lòng chọn chi nhánh' }]}
               >
                 <Select
                   options={[
