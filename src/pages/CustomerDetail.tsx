@@ -335,7 +335,7 @@ const CustomerDetail = () => {
           )
         ) : (
           <Form form={form} layout="vertical" initialValues={{ status: 'Initiation' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0 16px' }}>
               <Form.Item
                 label="Tên khách hàng"
                 name="name"
@@ -438,7 +438,7 @@ const CustomerDetail = () => {
                 <Input placeholder="Nhập số CIF khách hàng" />
               </Form.Item>
 
-              <Form.Item label="Ngành nghề kinh doanh" name="industry">
+              <Form.Item label="Ngành nghề kinh doanh" name="industry" style={{ gridColumn: 'span 2' }}>
                 <Select
                   showSearch
                   placeholder="Chọn ngành nghề"
@@ -479,7 +479,7 @@ const CustomerDetail = () => {
             <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
               Thông tin quản lý
             </Title>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0 16px' }}>
               <Form.Item label="Email RM quản lý" name="rmEmail">
                 <Input type="email" placeholder="rm@example.com" />
               </Form.Item>
@@ -488,7 +488,7 @@ const CustomerDetail = () => {
                 <Input type="email" placeholder="sm@example.com" />
               </Form.Item>
 
-              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: '1 / -1' }}>
+              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: 'span 2' }}>
                 <Input placeholder="https://sharepoint.com/..." />
               </Form.Item>
             </div>
@@ -496,7 +496,7 @@ const CustomerDetail = () => {
             <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
               Liên hệ khách hàng 1
             </Title>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0 16px' }}>
               <Form.Item label="Họ tên" name={['contact1', 'fullName']}>
                 <Input placeholder="Nhập họ tên" />
               </Form.Item>
@@ -517,7 +517,7 @@ const CustomerDetail = () => {
             <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
               Liên hệ khách hàng 2
             </Title>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0 16px' }}>
               <Form.Item label="Họ tên" name={['contact2', 'fullName']}>
                 <Input placeholder="Nhập họ tên" />
               </Form.Item>
