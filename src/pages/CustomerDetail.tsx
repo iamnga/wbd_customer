@@ -279,7 +279,7 @@ const CustomerDetail = () => {
               <Descriptions.Item label="Link tài liệu liên quan" span={2}>
                 {customer.documentsLink ? (
                   <a href={customer.documentsLink} target="_blank" rel="noopener noreferrer">
-                    {customer.documentsLink}
+                    Thư mục tài liệu
                   </a>
                 ) : '-'}
               </Descriptions.Item>
