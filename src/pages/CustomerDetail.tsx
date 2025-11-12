@@ -463,14 +463,6 @@ const CustomerDetail = () => {
                 <Input placeholder="Nhập số CIF khách hàng" />
               </Form.Item>
 
-              <Form.Item name="isTCG" valuePropName="checked">
-                <Checkbox>Là TCG (Top Customer Group)</Checkbox>
-              </Form.Item>
-
-              <Form.Item name="hasCustomize" valuePropName="checked">
-                <Checkbox>Có Customize</Checkbox>
-              </Form.Item>
-
               <Form.Item label="Ngành nghề kinh doanh" name="industry" style={{ gridColumn: 'span 2' }}>
                 <Select
                   showSearch
@@ -508,8 +500,16 @@ const CustomerDetail = () => {
                 <Input placeholder="https://example.com" />
               </Form.Item>
 
-              <Form.Item label="Link tài liệu liên quan" name="documentsLink">
+              <Form.Item label="Link tài liệu liên quan" name="documentsLink" style={{ gridColumn: 'span 4' }}>
                 <Input placeholder="https://sharepoint.com/..." />
+              </Form.Item>
+
+              <Form.Item name="isTCG" valuePropName="checked">
+                <Checkbox>Là TCG (Top Customer Group)</Checkbox>
+              </Form.Item>
+
+              <Form.Item name="hasCustomize" valuePropName="checked" style={{ gridColumn: 'span 3' }}>
+                <Checkbox>Có Customize</Checkbox>
               </Form.Item>
             </div>
 
