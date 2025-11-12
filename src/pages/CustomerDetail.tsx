@@ -14,6 +14,8 @@ import {
   Steps,
   Descriptions,
   Tooltip,
+  Checkbox,
+  Tag,
 } from 'antd';
 import {
   ArrowLeftOutlined,
@@ -256,9 +258,20 @@ const CustomerDetail = () => {
               <Descriptions.Item label="Số CIF">
                 {customer.cif || '-'}
               </Descriptions.Item>
+              <Descriptions.Item label="Là TCG">
+                {customer.isTCG ? <Tag color="gold">Top Customer Group</Tag> : '-'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Có Customize">
+                {customer.hasCustomize ? <Tag color="blue">Có</Tag> : <Tag>Không</Tag>}
+              </Descriptions.Item>
               <Descriptions.Item label="Ngành nghề kinh doanh">
                 {customer.industry || '-'}
               </Descriptions.Item>
+              {customer.hasCustomize && customer.customizeDescription && (
+                <Descriptions.Item label="Mô tả chi tiết Customize" span={2}>
+                  {customer.customizeDescription}
+                </Descriptions.Item>
+              )}
               <Descriptions.Item label="Website">
                 {customer.website ? (
                   <a href={customer.website} target="_blank" rel="noopener noreferrer">
@@ -266,7 +279,7 @@ const CustomerDetail = () => {
                   </a>
                 ) : '-'}
               </Descriptions.Item>
-              <Descriptions.Item label="Link tài liệu liên quan" span={2}>
+              <Descriptions.Item label="Link tài liệu liên quan">
                 {customer.documentsLink ? (
                   <a href={customer.documentsLink} target="_blank" rel="noopener noreferrer">
                     Thư mục tài liệu
@@ -450,6 +463,14 @@ const CustomerDetail = () => {
                 <Input placeholder="Nhập số CIF khách hàng" />
               </Form.Item>
 
+              <Form.Item name="isTCG" valuePropName="checked">
+                <Checkbox>Là TCG (Top Customer Group)</Checkbox>
+              </Form.Item>
+
+              <Form.Item name="hasCustomize" valuePropName="checked">
+                <Checkbox>Có Customize</Checkbox>
+              </Form.Item>
+
               <Form.Item label="Ngành nghề kinh doanh" name="industry" style={{ gridColumn: 'span 2' }}>
                 <Select
                   showSearch
@@ -491,6 +512,22 @@ const CustomerDetail = () => {
                 <Input placeholder="https://sharepoint.com/..." />
               </Form.Item>
             </div>
+
+            <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.hasCustomize !== currentValues.hasCustomize}>
+              {({ getFieldValue }) =>
+                getFieldValue('hasCustomize') ? (
+                  <div style={{ marginTop: 16 }}>
+                    <Form.Item
+                      label="Mô tả chi tiết Customize"
+                      name="customizeDescription"
+                      rules={[{ required: true, message: 'Vui lòng mô tả chi tiết về customize' }]}
+                    >
+                      <TextArea rows={4} placeholder="Mô tả cụ thể các tính năng/yêu cầu customize..." />
+                    </Form.Item>
+                  </div>
+                ) : null
+              }
+            </Form.Item>
 
             <Title level={5} style={{ marginTop: 24, marginBottom: 16, color: '#2b6cae' }}>
               Thông tin RM quản lý

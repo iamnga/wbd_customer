@@ -67,6 +67,9 @@ export interface Customer {
   website?: string;
   contact1?: ContactInfo;
   contact2?: ContactInfo;
+  isTCG?: boolean;
+  hasCustomize?: boolean;
+  customizeDescription?: string;
 }
 
 export interface PhaseChecklist {

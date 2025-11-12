@@ -41,7 +41,10 @@ export const mockCustomers: Customer[] = [
       title: 'Trưởng phòng IT',
       email: 'tranthib@thegioididong.com',
       phone: '0902345678'
-    }
+    },
+    isTCG: true,
+    hasCustomize: true,
+    customizeDescription: 'Customize báo cáo chi tiết theo từng khu vực địa lý, tích hợp API riêng cho hệ thống ERP nội bộ, dashboard theo dõi real-time'
   },
   {
     id: '2',
@@ -83,7 +86,9 @@ export const mockCustomers: Customer[] = [
       title: 'Trưởng phòng Kế toán',
       email: 'phamthid@viettel.com.vn',
       phone: '0904567890'
-    }
+    },
+    isTCG: true,
+    hasCustomize: false
   },
   {
     id: '3',
@@ -125,7 +130,10 @@ export const mockCustomers: Customer[] = [
       title: 'Kế toán trưởng',
       email: 'dothif@sabeco.com.vn',
       phone: '0906789012'
-    }
+    },
+    isTCG: false,
+    hasCustomize: true,
+    customizeDescription: 'Báo cáo phân tích dòng tiền theo nhà máy, tích hợp với hệ thống SAP để đồng bộ dữ liệu tự động'
   },
   {
     id: '4',
@@ -167,7 +175,10 @@ export const mockCustomers: Customer[] = [
       title: 'Chuyên viên IT',
       email: 'buithih@shopee.vn',
       phone: '0908901234'
-    }
+    },
+    isTCG: true,
+    hasCustomize: true,
+    customizeDescription: 'Module thanh toán đa kênh với webhook realtime, API tracking đơn hàng tự động, báo cáo phân tích seller'
   },
   {
     id: '5',
@@ -209,7 +220,9 @@ export const mockCustomers: Customer[] = [
       title: 'Phó Giám đốc Tài chính',
       email: 'maithik@sendo.vn',
       phone: '0910123456'
-    }
+    },
+    isTCG: false,
+    hasCustomize: false
   },
   {
     id: '6',
@@ -251,7 +264,10 @@ export const mockCustomers: Customer[] = [
       title: 'Trưởng phòng Thanh toán',
       email: 'lythim@momo.vn',
       phone: '0912345678'
-    }
+    },
+    isTCG: true,
+    hasCustomize: true,
+    customizeDescription: 'Hệ thống reconciliation tự động, API QR code động, dashboard phân tích giao dịch theo thời gian thực'
   },
   {
     id: '7',
@@ -293,7 +309,9 @@ export const mockCustomers: Customer[] = [
       title: 'Giám đốc Tài chính',
       email: 'chuthio@vnptpay.vn',
       phone: '0914567890'
-    }
+    },
+    isTCG: false,
+    hasCustomize: false
   },
   {
     id: '8',
@@ -335,7 +353,10 @@ export const mockCustomers: Customer[] = [
       title: 'Kế toán trưởng',
       email: 'tothiq@fpt.com.vn',
       phone: '0916789012'
-    }
+    },
+    isTCG: true,
+    hasCustomize: true,
+    customizeDescription: 'API tích hợp với hệ thống CRM, báo cáo tài chính tổng hợp theo chi nhánh, module phân quyền đa cấp'
   },
   {
     id: '9',
@@ -378,7 +399,9 @@ export const mockCustomers: Customer[] = [
       title: 'Trưởng phòng Kế toán',
       email: 'caothis@tiki.vn',
       phone: '0918901234'
-    }
+    },
+    isTCG: false,
+    hasCustomize: false
   },
   {
     id: '10',
@@ -420,7 +443,10 @@ export const mockCustomers: Customer[] = [
       title: 'Phó Giám đốc Tài chính',
       email: 'vothiu@vincommerce.com',
       phone: '0920123456'
-    }
+    },
+    isTCG: true,
+    hasCustomize: true,
+    customizeDescription: 'Hệ thống quản lý thanh toán cho hơn 2000 cửa hàng, API đồng bộ với Oracle ERP, dashboard tổng hợp theo khu vực và nhóm sản phẩm'
   },
   {
     id: '11',
@@ -462,7 +488,10 @@ export const mockCustomers: Customer[] = [
       title: 'Trưởng phòng Thanh toán',
       email: 'hathiw@vnpt.com.vn',
       phone: '0922345678'
-    }
+    },
+    isTCG: false,
+    hasCustomize: true,
+    customizeDescription: 'Module báo cáo phân tích theo tỉnh thành, webhook notification cho các giao dịch bất thường'
   },
   {
     id: '12',
@@ -504,6 +533,8 @@ export const mockCustomers: Customer[] = [
       title: 'Giám đốc Tài chính',
       email: 'lamthiy@grab.com',
       phone: '0924567890'
-    }
+    },
+    isTCG: true,
+    hasCustomize: false
   }
 ];
